@@ -496,6 +496,11 @@ ninja.data = [{
           description: "another project with an image 🎉",
           section: "Projects",handler: () => {
               window.location.href = "/projects/9_project/";
+            },},{id: "projects-mechmind",
+          title: 'MechMind',
+          description: "Mechanical engineering knowledge tree with a Codex-backed AI tutor.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/mechmind/";
             },},{
         id: 'social-email',
         title: 'email',
