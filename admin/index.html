@@ -430,7 +430,7 @@
       <div class="empty" id="emptyState">没有匹配的应用。</div>
 
       <p class="footer">
-        最近更新：2026-07-06。清单来自 GitHub Pages 已启用仓库；新增应用后可在此页面的 APPS 数组中补充。
+        最近更新：2026-07-10。Re_Birth / Transfer Assistant / MechMind 已迁移至 Authelia SSO 统一登录入口；新增应用后可在此页面的 APPS 数组中补充。
       </p>
     </main>
 
@@ -450,24 +450,35 @@
         {
           name: "Re_Birth",
           repo: "re_birth",
-          description: "Re_Birth fitness coach。",
-          url: "https://snappython.github.io/re_birth/",
+          description: "Re_Birth fitness coach。经 Authelia SSO 统一登录。",
+          url: "https://rebirth.72-11-130-223.sslip.io:8444/",
           repoUrl: "https://github.com/SnapPython/re_birth",
-          source: "main /docs",
-          visibility: "private repo, public pages",
-          status: "building",
-          updated: "2026-07-06",
+          source: "VPS Caddy + SSO",
+          visibility: "private repo, SSO protected",
+          status: "built",
+          updated: "2026-07-10",
         },
         {
           name: "Transfer Assistant",
           repo: "transfer-assistant",
-          description: "自托管传输助手的网页入口。",
-          url: "https://snappython.github.io/transfer-assistant/",
+          description: "自托管传输助手。经 Authelia SSO 统一登录。",
+          url: "https://transfer.72-11-130-223.sslip.io:8444/",
           repoUrl: "https://github.com/SnapPython/transfer-assistant",
-          source: "main /docs",
-          visibility: "public",
+          source: "VPS Caddy + SSO",
+          visibility: "public repo, SSO protected",
           status: "built",
-          updated: "2026-07-06",
+          updated: "2026-07-10",
+        },
+        {
+          name: "MechMind",
+          repo: "my_database",
+          description: "MechMind 知识树与 Codex 导师。经 Authelia SSO 统一登录。",
+          url: "https://mechmind.72-11-130-223.sslip.io:8444/",
+          repoUrl: "https://github.com/SnapPython/my_database",
+          source: "VPS Caddy + SSO",
+          visibility: "private repo, SSO protected",
+          status: "built",
+          updated: "2026-07-10",
         },
         {
           name: "Voice Daily",
