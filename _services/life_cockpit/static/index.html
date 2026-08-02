@@ -5,16 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#17191c" />
     <title>研究生生活驾驶舱 | SnapPython</title>
-    <meta
-      name="description"
-      content="用于安排研究、课程与生活的个人日程工作台。"
-    />
+    <meta name="description" content="用于安排研究、课程与生活的个人日程工作台。" />
     <script>
       try {
         const savedTheme = localStorage.getItem("life-cockpit-theme");
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.dataset.theme =
-          savedTheme || (prefersDark ? "dark" : "light");
+        document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
       } catch {
         document.documentElement.dataset.theme = "light";
       }
@@ -96,8 +92,14 @@
         background: var(--page);
         color: var(--text);
         font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", "Microsoft YaHei", sans-serif;
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          "Microsoft YaHei",
+          sans-serif;
         letter-spacing: 0;
       }
 
@@ -1592,45 +1594,17 @@
         </a>
 
         <div class="header-actions">
-          <button
-            class="icon-control"
-            id="exportButton"
-            type="button"
-            aria-label="导出生活驾驶舱备份"
-            title="导出备份"
-          >
+          <button class="icon-control" id="exportButton" type="button" aria-label="导出生活驾驶舱备份" title="导出备份">
             <span aria-hidden="true">⇩</span>
           </button>
-          <button
-            class="icon-control"
-            id="importButton"
-            type="button"
-            aria-label="导入生活驾驶舱备份"
-            title="导入备份"
-          >
+          <button class="icon-control" id="importButton" type="button" aria-label="导入生活驾驶舱备份" title="导入备份">
             <span aria-hidden="true">⇧</span>
           </button>
-          <input
-            class="sr-only"
-            id="importFile"
-            type="file"
-            accept="application/json,.json"
-          />
-          <a
-            class="icon-control"
-            href="https://snappython.github.io/"
-            aria-label="返回个人主页"
-            title="返回个人主页"
-          >
+          <input class="sr-only" id="importFile" type="file" accept="application/json,.json" />
+          <a class="icon-control" href="https://snappython.github.io/" aria-label="返回个人主页" title="返回个人主页">
             <span aria-hidden="true">⌂</span>
           </a>
-          <button
-            class="icon-control"
-            id="themeToggle"
-            type="button"
-            aria-label="切换深浅色模式"
-            title="切换深浅色模式"
-          >
+          <button class="icon-control" id="themeToggle" type="button" aria-label="切换深浅色模式" title="切换深浅色模式">
             <span id="themeIcon" aria-hidden="true">☾</span>
           </button>
         </div>
@@ -1641,29 +1615,15 @@
       <div class="wrap day-layout">
         <div class="day-lead">
           <div class="date-toolbar">
-            <button
-              class="date-button"
-              id="previousDay"
-              type="button"
-              aria-label="前一天"
-              title="前一天"
-            >
+            <button class="date-button" id="previousDay" type="button" aria-label="前一天" title="前一天">
               <span aria-hidden="true">←</span>
             </button>
             <label class="sr-only" for="plannerDate">选择日期</label>
             <input class="planner-date" id="plannerDate" type="date" />
-            <button
-              class="date-button"
-              id="nextDay"
-              type="button"
-              aria-label="后一天"
-              title="后一天"
-            >
+            <button class="date-button" id="nextDay" type="button" aria-label="后一天" title="后一天">
               <span aria-hidden="true">→</span>
             </button>
-            <button class="today-button" id="todayButton" type="button">
-              今天
-            </button>
+            <button class="today-button" id="todayButton" type="button">今天</button>
           </div>
 
           <p class="full-date" id="fullDate">今天</p>
@@ -1686,9 +1646,7 @@
           </div>
           <div class="summary-item">
             <span class="summary-label">下一个时间块</span>
-            <span class="summary-value summary-value--small" id="nextBlockTitle">
-              暂无安排
-            </span>
+            <span class="summary-value summary-value--small" id="nextBlockTitle"> 暂无安排 </span>
             <span class="summary-detail" id="nextBlockTime">留给自由推进</span>
           </div>
         </div>
@@ -1721,35 +1679,16 @@
           <div class="panel-body week-fields">
             <label class="field">
               <span class="field-label">本周研究主线</span>
-              <textarea
-                class="week-textarea"
-                id="weekGoal"
-                maxlength="800"
-                placeholder="这一周最需要推进的研究问题"
-              ></textarea>
+              <textarea class="week-textarea" id="weekGoal" maxlength="800" placeholder="这一周最需要推进的研究问题"></textarea>
             </label>
             <label class="field">
               <span class="field-label">下一里程碑</span>
-              <input
-                class="milestone-input"
-                id="weekMilestone"
-                type="text"
-                maxlength="240"
-                placeholder="下一份可以交付或验证的结果"
-              />
+              <input class="milestone-input" id="weekMilestone" type="text" maxlength="240" placeholder="下一份可以交付或验证的结果" />
             </label>
             <label class="field">
               <span class="field-label">推进程度</span>
               <span class="range-line">
-                <input
-                  class="week-progress"
-                  id="weekProgress"
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="5"
-                  value="0"
-                />
+                <input class="week-progress" id="weekProgress" type="range" min="0" max="100" step="5" value="0" />
                 <output class="range-value" id="weekProgressValue">0%</output>
               </span>
             </label>
@@ -1764,22 +1703,11 @@
             </div>
             <div class="schedule-tools">
               <span class="panel-count" id="scheduleCount">0 个时间块</span>
-              <button
-                class="calendar-export"
-                id="googleCalendarButton"
-                type="button"
-                data-connected="false"
-                title="连接 Google 日历"
-              >
+              <button class="calendar-export" id="googleCalendarButton" type="button" data-connected="false" title="连接 Google 日历">
                 <span aria-hidden="true">G</span>
                 <span id="googleCalendarLabel">Google</span>
               </button>
-              <button
-                class="calendar-export"
-                id="exportCalendarButton"
-                type="button"
-                title="导出当天日程"
-              >
+              <button class="calendar-export" id="exportCalendarButton" type="button" title="导出当天日程">
                 <span aria-hidden="true">⇩</span>
                 日历
               </button>
@@ -1806,40 +1734,19 @@
               </label>
               <label class="compact-field compact-field--text">
                 <span class="compact-label">事项</span>
-                <input
-                  class="entry-text"
-                  id="blockText"
-                  type="text"
-                  maxlength="240"
-                  placeholder="添加一个时间块"
-                  autocomplete="off"
-                  required
-                />
+                <input class="entry-text" id="blockText" type="text" maxlength="240" placeholder="添加一个时间块" autocomplete="off" required />
               </label>
               <button class="add-button" type="submit" aria-label="添加时间块" title="添加">
                 <span aria-hidden="true">＋</span>
               </button>
             </form>
             <div class="timeline-legend" aria-label="时间块类别">
-              <span class="legend-item" data-category="research">
-                <span class="legend-swatch" aria-hidden="true"></span>研究
-              </span>
-              <span class="legend-item" data-category="course">
-                <span class="legend-swatch" aria-hidden="true"></span>课程
-              </span>
-              <span class="legend-item" data-category="life">
-                <span class="legend-swatch" aria-hidden="true"></span>生活
-              </span>
-              <span class="legend-item" data-category="health">
-                <span class="legend-swatch" aria-hidden="true"></span>健康
-              </span>
+              <span class="legend-item" data-category="research"> <span class="legend-swatch" aria-hidden="true"></span>研究 </span>
+              <span class="legend-item" data-category="course"> <span class="legend-swatch" aria-hidden="true"></span>课程 </span>
+              <span class="legend-item" data-category="life"> <span class="legend-swatch" aria-hidden="true"></span>生活 </span>
+              <span class="legend-item" data-category="health"> <span class="legend-swatch" aria-hidden="true"></span>健康 </span>
             </div>
-            <div
-              class="timeline-scroll"
-              id="timelineScroll"
-              tabindex="0"
-              aria-label="当天 24 小时时间轴"
-            >
+            <div class="timeline-scroll" id="timelineScroll" tabindex="0" aria-label="当天 24 小时时间轴">
               <div class="timeline-canvas" id="timelineCanvas">
                 <div class="timeline-grid" id="timelineGrid" aria-hidden="true"></div>
                 <div class="timeline-events" id="timelineEvents"></div>
@@ -1859,44 +1766,16 @@
             </div>
             <div class="task-header-tools">
               <div class="segmented" aria-label="筛选待办">
-                <button
-                  class="segment-button"
-                  type="button"
-                  data-task-filter="open"
-                  aria-pressed="true"
-                >
-                  待办
-                </button>
-                <button
-                  class="segment-button"
-                  type="button"
-                  data-task-filter="all"
-                  aria-pressed="false"
-                >
-                  全部
-                </button>
-                <button
-                  class="segment-button"
-                  type="button"
-                  data-task-filter="done"
-                  aria-pressed="false"
-                >
-                  完成
-                </button>
+                <button class="segment-button" type="button" data-task-filter="open" aria-pressed="true">待办</button>
+                <button class="segment-button" type="button" data-task-filter="all" aria-pressed="false">全部</button>
+                <button class="segment-button" type="button" data-task-filter="done" aria-pressed="false">完成</button>
               </div>
             </div>
           </header>
           <div class="panel-body">
             <form class="entry-form task-form" id="taskForm">
               <label class="sr-only" for="taskText">待办内容</label>
-              <input
-                id="taskText"
-                type="text"
-                maxlength="240"
-                placeholder="记下一个待办"
-                autocomplete="off"
-                required
-              />
+              <input id="taskText" type="text" maxlength="240" placeholder="记下一个待办" autocomplete="off" required />
               <label class="sr-only" for="taskCategory">类别</label>
               <select id="taskCategory">
                 <option value="research">研究</option>
@@ -1922,12 +1801,7 @@
           </header>
           <div class="panel-body">
             <label class="sr-only" for="dailyNotes">当天的随手记录</label>
-            <textarea
-              class="notes-textarea"
-              id="dailyNotes"
-              maxlength="10000"
-              placeholder="想法、阅读线索、会议结论，或今天值得记住的事"
-            ></textarea>
+            <textarea class="notes-textarea" id="dailyNotes" maxlength="10000" placeholder="想法、阅读线索、会议结论，或今天值得记住的事"></textarea>
           </div>
         </section>
       </div>
@@ -1948,13 +1822,7 @@
       <form class="dialog-form" id="blockEditForm">
         <header class="dialog-header">
           <h2 class="dialog-title" id="blockDialogTitle">编辑时间块</h2>
-          <button
-            class="small-icon-button"
-            id="closeBlockDialog"
-            type="button"
-            aria-label="关闭"
-            title="关闭"
-          >
+          <button class="small-icon-button" id="closeBlockDialog" type="button" aria-label="关闭" title="关闭">
             <span aria-hidden="true">×</span>
           </button>
         </header>
@@ -1965,23 +1833,11 @@
           </label>
           <label class="dialog-field">
             <span class="field-label">开始</span>
-            <input
-              id="editBlockStart"
-              type="time"
-              step="900"
-              max="23:30"
-              required
-            />
+            <input id="editBlockStart" type="time" step="900" max="23:30" required />
           </label>
           <label class="dialog-field">
             <span class="field-label">结束</span>
-            <input
-              id="editBlockEnd"
-              type="time"
-              step="900"
-              max="23:59"
-              required
-            />
+            <input id="editBlockEnd" type="time" step="900" max="23:59" required />
           </label>
           <label class="dialog-field">
             <span class="field-label">类别</span>
@@ -1998,20 +1854,10 @@
           </label>
         </div>
         <footer class="dialog-footer">
-          <button
-            class="dialog-button dialog-button--danger"
-            id="deleteBlockButton"
-            type="button"
-          >
-            删除
-          </button>
+          <button class="dialog-button dialog-button--danger" id="deleteBlockButton" type="button">删除</button>
           <div class="dialog-actions">
-            <button class="dialog-button" id="cancelBlockEdit" type="button">
-              取消
-            </button>
-            <button class="dialog-button dialog-button--primary" type="submit">
-              保存
-            </button>
+            <button class="dialog-button" id="cancelBlockEdit" type="button">取消</button>
+            <button class="dialog-button dialog-button--primary" type="submit">保存</button>
           </div>
         </footer>
       </form>
@@ -2091,11 +1937,7 @@
         },
       ];
 
-      const priorityPlaceholders = [
-        "最重要的研究推进",
-        "课程、项目或协作任务",
-        "照顾自己的安排",
-      ];
+      const priorityPlaceholders = ["最重要的研究推进", "课程、项目或协作任务", "照顾自己的安排"];
 
       const elements = {
         appGrid: document.querySelector("#appGrid"),
@@ -2205,17 +2047,10 @@
       }
 
       function normalizeBlockRange(startValue, endValue) {
-        const fallbackStart = /^\d{2}:\d{2}$/.test(startValue || "")
-          ? startValue
-          : "09:00";
+        const fallbackStart = /^\d{2}:\d{2}$/.test(startValue || "") ? startValue : "09:00";
         const startMinutes = Math.min(1410, timeToMinutes(fallbackStart));
-        const requestedEnd = /^\d{2}:\d{2}$/.test(endValue || "")
-          ? timeToMinutes(endValue)
-          : startMinutes + 60;
-        const endMinutes = Math.min(
-          1439,
-          Math.max(startMinutes + 30, requestedEnd),
-        );
+        const requestedEnd = /^\d{2}:\d{2}$/.test(endValue || "") ? timeToMinutes(endValue) : startMinutes + 60;
+        const endMinutes = Math.min(1439, Math.max(startMinutes + 30, requestedEnd));
         return {
           start: minutesToTime(startMinutes),
           end: minutesToTime(endMinutes),
@@ -2262,9 +2097,7 @@
 
       function normalizeDay(rawDay) {
         const source = rawDay && typeof rawDay === "object" ? rawDay : {};
-        const rawPriorities = Array.isArray(source.priorities)
-          ? source.priorities
-          : [];
+        const rawPriorities = Array.isArray(source.priorities) ? source.priorities : [];
         const priorities = Array.from({ length: 3 }, (_, index) => {
           const item = rawPriorities[index] || {};
           return {
@@ -2273,31 +2106,34 @@
           };
         });
         const blocks = Array.isArray(source.blocks)
-          ? source.blocks.slice(0, 200).map((item) => {
-              const range = normalizeBlockRange(
-                item.start || item.time,
-                item.end,
-              );
-              return {
+          ? source.blocks
+              .slice(0, 200)
+              .map((item) => {
+                const range = normalizeBlockRange(item.start || item.time, item.end);
+                return {
+                  id: cleanText(item.id || createId(), 120),
+                  start: range.start,
+                  end: range.end,
+                  category: validCategory(item.category),
+                  text: cleanText(item.text, 240),
+                  done: Boolean(item.done),
+                  source: item.source === "google" ? "google" : "cockpit",
+                  googleEventId: cleanText(item.googleEventId, 240) || null,
+                  syncState: cleanText(item.syncState, 40) || "synced",
+                };
+              })
+              .filter((item) => item.text.trim())
+          : [];
+        const tasks = Array.isArray(source.tasks)
+          ? source.tasks
+              .slice(0, 300)
+              .map((item) => ({
                 id: cleanText(item.id || createId(), 120),
-                start: range.start,
-                end: range.end,
                 category: validCategory(item.category),
                 text: cleanText(item.text, 240),
                 done: Boolean(item.done),
-                source: item.source === "google" ? "google" : "cockpit",
-                googleEventId: cleanText(item.googleEventId, 240) || null,
-                syncState: cleanText(item.syncState, 40) || "synced",
-              };
-            }).filter((item) => item.text.trim())
-          : [];
-        const tasks = Array.isArray(source.tasks)
-          ? source.tasks.slice(0, 300).map((item) => ({
-              id: cleanText(item.id || createId(), 120),
-              category: validCategory(item.category),
-              text: cleanText(item.text, 240),
-              done: Boolean(item.done),
-            })).filter((item) => item.text.trim())
+              }))
+              .filter((item) => item.text.trim())
           : [];
 
         return {
@@ -2353,21 +2189,14 @@
           const base64 = encoded.replace(/-/g, "+").replace(/_/g, "/");
           const padded = base64 + "=".repeat((4 - (base64.length % 4)) % 4);
           const binary = window.atob(padded);
-          const bytes = Uint8Array.from(
-            binary,
-            (character) => character.charCodeAt(0),
-          );
+          const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
           const parsed = JSON.parse(new TextDecoder().decode(bytes));
           migratedFromGithub = true;
           return normalizeState(parsed);
         } catch {
           return null;
         } finally {
-          window.history.replaceState(
-            {},
-            "",
-            `${window.location.pathname}${window.location.search}`,
-          );
+          window.history.replaceState({}, "", `${window.location.pathname}${window.location.search}`);
         }
       }
 
@@ -2400,9 +2229,7 @@
 
       function loadSyncQueue() {
         try {
-          const parsed = JSON.parse(
-            localStorage.getItem(SYNC_QUEUE_KEY) || "[]",
-          );
+          const parsed = JSON.parse(localStorage.getItem(SYNC_QUEUE_KEY) || "[]");
           return Array.isArray(parsed) ? parsed : [];
         } catch {
           return [];
@@ -2469,7 +2296,7 @@
           window.setTimeout(() => {
             mutationTimers.delete(key);
             enqueueMutation(key, method, path, body);
-          }, delay),
+          }, delay)
         );
       }
 
@@ -2486,22 +2313,12 @@
                 body: operation.body,
               });
               serverOnline = true;
-              serverRevision = Math.max(
-                serverRevision,
-                Number(result.revision) || 0,
-              );
-              syncQueue = syncQueue.filter(
-                (item) => item.operationId !== operation.operationId,
-              );
+              serverRevision = Math.max(serverRevision, Number(result.revision) || 0);
+              syncQueue = syncQueue.filter((item) => item.operationId !== operation.operationId);
               persistSyncQueue();
             } catch (error) {
-              if (
-                operation.method === "DELETE" &&
-                Number(error.status) === 404
-              ) {
-                syncQueue = syncQueue.filter(
-                  (item) => item.operationId !== operation.operationId,
-                );
+              if (operation.method === "DELETE" && Number(error.status) === 404) {
+                syncQueue = syncQueue.filter((item) => item.operationId !== operation.operationId);
                 persistSyncQueue();
                 continue;
               }
@@ -2522,16 +2339,8 @@
 
       function hasMeaningfulLocalData() {
         return (
-          Object.values(state.days).some(
-            (day) =>
-              day.notes ||
-              day.blocks.length ||
-              day.tasks.length ||
-              day.priorities.some((item) => item.text),
-          ) ||
-          Object.values(state.weeks).some(
-            (week) => week.goal || week.milestone || week.progress,
-          )
+          Object.values(state.days).some((day) => day.notes || day.blocks.length || day.tasks.length || day.priorities.some((item) => item.text)) ||
+          Object.values(state.weeks).some((week) => week.goal || week.milestone || week.progress)
         );
       }
 
@@ -2617,10 +2426,7 @@
         remoteRefreshTimer = window.setTimeout(async () => {
           if (revision <= serverRevision) return;
           const activeElement = document.activeElement;
-          const isEditing =
-            elements.blockDialog.open ||
-            (activeElement &&
-              activeElement.matches("input, textarea, select"));
+          const isEditing = elements.blockDialog.open || (activeElement && activeElement.matches("input, textarea, select"));
           if (syncQueue.length || syncInProgress || isEditing) {
             requestRemoteRefresh(revision);
             return;
@@ -2686,9 +2492,7 @@
           url.searchParams.delete("google");
           window.history.replaceState({}, "", url);
         } else if (url.searchParams.get("google") === "error") {
-          setSyncStatus(
-            `Google 连接失败：${url.searchParams.get("message") || "未知错误"}`,
-          );
+          setSyncStatus(`Google 连接失败：${url.searchParams.get("message") || "未知错误"}`);
           url.searchParams.delete("google");
           url.searchParams.delete("message");
           window.history.replaceState({}, "", url);
@@ -2729,9 +2533,7 @@
       }
 
       function getWeekKey(date) {
-        const utcDate = new Date(
-          Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
-        );
+        const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
         const day = utcDate.getUTCDay() || 7;
         utcDate.setUTCDate(utcDate.getUTCDate() + 4 - day);
         const yearStart = new Date(Date.UTC(utcDate.getUTCFullYear(), 0, 1));
@@ -2763,10 +2565,7 @@
 
       function categoryOptions(selected) {
         return Object.entries(CATEGORY_LABELS)
-          .map(
-            ([value, label]) =>
-              `<option value="${value}" ${value === selected ? "selected" : ""}>${label}</option>`,
-          )
+          .map(([value, label]) => `<option value="${value}" ${value === selected ? "selected" : ""}>${label}</option>`)
           .join("");
       }
 
@@ -2775,26 +2574,15 @@
         const todayKey = toDateKey(new Date());
         const difference = Math.round((date - fromDateKey(todayKey)) / 86400000);
         const relation =
-          difference === 0
-            ? "今天"
-            : difference === 1
-              ? "明天"
-              : difference === -1
-                ? "昨天"
-                : difference > 1
-                  ? "未来计划"
-                  : "往日回顾";
+          difference === 0 ? "今天" : difference === 1 ? "明天" : difference === -1 ? "昨天" : difference > 1 ? "未来计划" : "往日回顾";
 
         elements.plannerDate.value = selectedDateKey;
-        elements.fullDate.textContent = `${relation} · ${new Intl.DateTimeFormat(
-          "zh-CN",
-          {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            weekday: "long",
-          },
-        ).format(date)}`;
+        elements.fullDate.textContent = `${relation} · ${new Intl.DateTimeFormat("zh-CN", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "long",
+        }).format(date)}`;
 
         if (difference === 0) {
           elements.dayPrompt.textContent = "先完成最重要的一件事。";
@@ -2831,7 +2619,7 @@
                   aria-label="第 ${index + 1} 件重要事项"
                 />
               </label>
-            `,
+            `
           )
           .join("");
       }
@@ -2867,11 +2655,7 @@
             startMinutes: timeToMinutes(item.start),
             endMinutes: timeToMinutes(item.end),
           }))
-          .sort(
-            (a, b) =>
-              a.startMinutes - b.startMinutes ||
-              a.endMinutes - b.endMinutes,
-          );
+          .sort((a, b) => a.startMinutes - b.startMinutes || a.endMinutes - b.endMinutes);
         const groups = [];
         let currentGroup = [];
         let groupEnd = -1;
@@ -2902,15 +2686,12 @@
 
       function renderBlocks() {
         const day = ensureDay();
-        const blocks = [...day.blocks].sort((a, b) =>
-          a.start.localeCompare(b.start),
-        );
+        const blocks = [...day.blocks].sort((a, b) => a.start.localeCompare(b.start));
         const positionedBlocks = layoutTimelineBlocks(blocks);
         elements.scheduleCount.textContent = `${blocks.length} 个时间块`;
 
         if (!positionedBlocks.length) {
-          elements.timelineEvents.innerHTML =
-            '<div class="timeline-empty">这一天还没有时间块</div>';
+          elements.timelineEvents.innerHTML = '<div class="timeline-empty">这一天还没有时间块</div>';
           updateCurrentTimeLine();
           return;
         }
@@ -2922,12 +2703,7 @@
             const laneWidth = 100 / laneCount;
             const left = lane * laneWidth;
             const duration = endMinutes - startMinutes;
-            const sourceLabel =
-              item.googleEventId || item.source === "google"
-                ? " · G"
-                : item.syncState === "pending_upsert"
-                  ? " · 待同步"
-                  : "";
+            const sourceLabel = item.googleEventId || item.source === "google" ? " · G" : item.syncState === "pending_upsert" ? " · 待同步" : "";
             return `
               <button
                 class="time-block"
@@ -2943,11 +2719,7 @@
                   left: calc(${left}% + 3px);
                   width: calc(${laneWidth}% - 6px);
                 "
-                aria-label="${escapeHTML(
-                  `${item.start} 至 ${item.end}，${item.text}，${
-                    CATEGORY_LABELS[item.category]
-                  }`,
-                )}"
+                aria-label="${escapeHTML(`${item.start} 至 ${item.end}，${item.text}，${CATEGORY_LABELS[item.category]}`)}"
               >
                 <span class="time-block-title">${escapeHTML(item.text)}</span>
                 <span class="time-block-meta">
@@ -2976,18 +2748,10 @@
         window.requestAnimationFrame(() => {
           const day = ensureDay();
           const now = new Date();
-          const firstBlock = [...day.blocks].sort((a, b) =>
-            a.start.localeCompare(b.start),
-          )[0];
+          const firstBlock = [...day.blocks].sort((a, b) => a.start.localeCompare(b.start))[0];
           const focusMinutes =
-            selectedDateKey === toDateKey(now)
-              ? now.getHours() * 60 + now.getMinutes()
-              : firstBlock
-                ? timeToMinutes(firstBlock.start)
-                : 8 * 60;
-          const target =
-            (focusMinutes / 1440) * elements.timelineCanvas.offsetHeight -
-            elements.timelineScroll.clientHeight * 0.2;
+            selectedDateKey === toDateKey(now) ? now.getHours() * 60 + now.getMinutes() : firstBlock ? timeToMinutes(firstBlock.start) : 8 * 60;
+          const target = (focusMinutes / 1440) * elements.timelineCanvas.offsetHeight - elements.timelineScroll.clientHeight * 0.2;
           elements.timelineScroll.scrollTop = Math.max(0, target);
         });
       }
@@ -3014,19 +2778,11 @@
         });
 
         document.querySelectorAll("[data-task-filter]").forEach((button) => {
-          button.setAttribute(
-            "aria-pressed",
-            String(button.dataset.taskFilter === taskFilter),
-          );
+          button.setAttribute("aria-pressed", String(button.dataset.taskFilter === taskFilter));
         });
 
         if (!tasks.length) {
-          const message =
-            taskFilter === "done"
-              ? "还没有已完成的待办"
-              : taskFilter === "open"
-                ? "当前没有待办"
-                : "这一天还没有待办";
+          const message = taskFilter === "done" ? "还没有已完成的待办" : taskFilter === "open" ? "当前没有待办" : "这一天还没有待办";
           elements.taskList.innerHTML = `<div class="empty-state">${message}</div>`;
           return;
         }
@@ -3061,7 +2817,7 @@
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
-            `,
+            `
           )
           .join("");
       }
@@ -3082,29 +2838,21 @@
 
         elements.completionValue.textContent = `${completed} / ${total}`;
         elements.completionBar.style.width = `${percentage}%`;
-        elements.priorityCount.textContent =
-          `${activePriorities.length} / 3 已安排`;
+        elements.priorityCount.textContent = `${activePriorities.length} / 3 已安排`;
         elements.notesCount.textContent = `${day.notes.length} 字`;
 
-        const sortedBlocks = [...day.blocks]
-          .filter((item) => !item.done)
-          .sort((a, b) => a.start.localeCompare(b.start));
+        const sortedBlocks = [...day.blocks].filter((item) => !item.done).sort((a, b) => a.start.localeCompare(b.start));
         let nextBlock = sortedBlocks[0];
 
         if (selectedDateKey === toDateKey(new Date())) {
           const now = new Date();
-          const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(
-            now.getMinutes(),
-          ).padStart(2, "0")}`;
+          const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
           nextBlock = sortedBlocks.find((item) => item.end > currentTime);
         }
 
         if (nextBlock) {
           elements.nextBlockTitle.textContent = nextBlock.text;
-          elements.nextBlockTime.textContent =
-            `${nextBlock.start} - ${nextBlock.end} · ${
-              CATEGORY_LABELS[nextBlock.category]
-            }`;
+          elements.nextBlockTime.textContent = `${nextBlock.start} - ${nextBlock.end} · ${CATEGORY_LABELS[nextBlock.category]}`;
         } else {
           elements.nextBlockTitle.textContent = "暂无安排";
           elements.nextBlockTime.textContent = "留给自由推进";
@@ -3118,10 +2866,7 @@
         const now = new Date();
         const currentMinutes = now.getHours() * 60 + now.getMinutes();
         const nextSlot = Math.min(23 * 60 + 30, Math.ceil((currentMinutes + 1) / 30) * 30);
-        return normalizeBlockRange(
-          minutesToTime(nextSlot),
-          minutesToTime(nextSlot + 30),
-        );
+        return normalizeBlockRange(minutesToTime(nextSlot), minutesToTime(nextSlot + 30));
       }
 
       function renderSelectedDay() {
@@ -3219,13 +2964,8 @@
       function applyThemeIcon() {
         const isDark = document.documentElement.dataset.theme === "dark";
         elements.themeIcon.textContent = isDark ? "☀" : "☾";
-        elements.themeToggle.setAttribute(
-          "aria-label",
-          isDark ? "切换到浅色模式" : "切换到深色模式",
-        );
-        document
-          .querySelector('meta[name="theme-color"]')
-          .setAttribute("content", isDark ? "#080a0c" : "#17191c");
+        elements.themeToggle.setAttribute("aria-label", isDark ? "切换到浅色模式" : "切换到深色模式");
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", isDark ? "#080a0c" : "#17191c");
       }
 
       function renderApps() {
@@ -3238,16 +2978,10 @@
                   class="health"
                   id="health-${app.id}"
                   data-health="${app.access === "sso" ? "sso" : "checking"}"
-                  aria-label="${
-                    app.access === "sso"
-                      ? `${app.name} 需要统一登录`
-                      : `${app.name} 状态检测中`
-                  }"
+                  aria-label="${app.access === "sso" ? `${app.name} 需要统一登录` : `${app.name} 状态检测中`}"
                 >
                   <span class="health-dot" aria-hidden="true"></span>
-                  <span class="health-label">${
-                    app.access === "sso" ? "SSO" : "检测中"
-                  }</span>
+                  <span class="health-label">${app.access === "sso" ? "SSO" : "检测中"}</span>
                 </span>
               </div>
               <p class="app-domain">${app.domain}</p>
@@ -3274,11 +3008,10 @@
                 </a>
               </div>
             </article>
-          `,
+          `
         ).join("");
 
-        document.querySelector("#systemCount").textContent =
-          `${APPS.length} 个入口 · ${APPS.filter((app) => app.access === "sso").length} 个 SSO`;
+        document.querySelector("#systemCount").textContent = `${APPS.length} 个入口 · ${APPS.filter((app) => app.access === "sso").length} 个 SSO`;
       }
 
       async function checkApp(app) {
@@ -3296,10 +3029,7 @@
           });
           status.dataset.health = response.ok ? "online" : "offline";
           label.textContent = response.ok ? "在线" : "不可用";
-          status.setAttribute(
-            "aria-label",
-            `${app.name} ${response.ok ? "在线" : "暂时不可用"}`,
-          );
+          status.setAttribute("aria-label", `${app.name} ${response.ok ? "在线" : "暂时不可用"}`);
         } catch {
           status.dataset.health = "offline";
           label.textContent = "未连接";
@@ -3310,17 +3040,11 @@
       }
 
       function escapeCalendarText(value) {
-        return String(value)
-          .replaceAll("\\", "\\\\")
-          .replaceAll("\n", "\\n")
-          .replaceAll(",", "\\,")
-          .replaceAll(";", "\\;");
+        return String(value).replaceAll("\\", "\\\\").replaceAll("\n", "\\n").replaceAll(",", "\\,").replaceAll(";", "\\;");
       }
 
       function exportDayCalendar() {
-        const blocks = [...ensureDay().blocks].sort((a, b) =>
-          a.start.localeCompare(b.start),
-        );
+        const blocks = [...ensureDay().blocks].sort((a, b) => a.start.localeCompare(b.start));
         if (!blocks.length) {
           window.alert("这一天还没有可以导出的时间块。");
           return;
@@ -3391,9 +3115,7 @@
           if (!parsed || typeof parsed.days !== "object") {
             throw new Error("Invalid backup");
           }
-          const shouldRestore = window.confirm(
-            "导入备份会替换 VPS 和所有设备上的驾驶舱数据，是否继续？",
-          );
+          const shouldRestore = window.confirm("导入备份会替换 VPS 和所有设备上的驾驶舱数据，是否继续？");
           if (!shouldRestore) return;
           mutationTimers.forEach((timer) => window.clearTimeout(timer));
           mutationTimers.clear();
@@ -3409,20 +3131,12 @@
               body: { state },
             });
             serverOnline = true;
-            serverRevision = Math.max(
-              serverRevision,
-              Number(result.revision) || 0,
-            );
+            serverRevision = Math.max(serverRevision, Number(result.revision) || 0);
             await loadDayFromServer(selectedDateKey);
             window.alert("备份已恢复，并已同步到所有设备。");
           } catch {
             serverOnline = false;
-            enqueueMutation(
-              "replace-state",
-              "POST",
-              "/api/replace-state",
-              { state },
-            );
+            enqueueMutation("replace-state", "POST", "/api/replace-state", { state });
             window.alert("备份已在本机恢复，连接 VPS 后会自动同步。");
           }
         } catch {
@@ -3433,8 +3147,7 @@
       }
 
       elements.themeToggle.addEventListener("click", () => {
-        const nextTheme =
-          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
         document.documentElement.dataset.theme = nextTheme;
         try {
           localStorage.setItem("life-cockpit-theme", nextTheme);
@@ -3466,12 +3179,7 @@
         ensureDay().priorities[index].text = event.target.value;
         saveState();
         refreshSummary();
-        scheduleMutation(
-          `priority:${selectedDateKey}:${index}`,
-          "PUT",
-          `/api/days/${selectedDateKey}/priorities/${index}`,
-          priorityPayload(index),
-        );
+        scheduleMutation(`priority:${selectedDateKey}:${index}`, "PUT", `/api/days/${selectedDateKey}/priorities/${index}`, priorityPayload(index));
       });
 
       elements.priorityList.addEventListener("change", (event) => {
@@ -3480,36 +3188,21 @@
         ensureDay().priorities[index].done = event.target.checked;
         saveState();
         refreshSummary();
-        enqueueMutation(
-          `priority:${selectedDateKey}:${index}`,
-          "PUT",
-          `/api/days/${selectedDateKey}/priorities/${index}`,
-          priorityPayload(index),
-        );
+        enqueueMutation(`priority:${selectedDateKey}:${index}`, "PUT", `/api/days/${selectedDateKey}/priorities/${index}`, priorityPayload(index));
       });
 
       elements.weekGoal.addEventListener("input", (event) => {
         ensureWeek().goal = event.target.value;
         saveState();
         const key = getWeekKey(fromDateKey(selectedDateKey));
-        scheduleMutation(
-          `week:${key}`,
-          "PUT",
-          `/api/weeks/${key}`,
-          weekPayload(),
-        );
+        scheduleMutation(`week:${key}`, "PUT", `/api/weeks/${key}`, weekPayload());
       });
 
       elements.weekMilestone.addEventListener("input", (event) => {
         ensureWeek().milestone = event.target.value;
         saveState();
         const key = getWeekKey(fromDateKey(selectedDateKey));
-        scheduleMutation(
-          `week:${key}`,
-          "PUT",
-          `/api/weeks/${key}`,
-          weekPayload(),
-        );
+        scheduleMutation(`week:${key}`, "PUT", `/api/weeks/${key}`, weekPayload());
       });
 
       elements.weekProgress.addEventListener("input", (event) => {
@@ -3519,13 +3212,7 @@
         elements.weekProgressValue.textContent = `${value}%`;
         saveState();
         const key = getWeekKey(fromDateKey(selectedDateKey));
-        scheduleMutation(
-          `week:${key}`,
-          "PUT",
-          `/api/weeks/${key}`,
-          weekPayload(),
-          250,
-        );
+        scheduleMutation(`week:${key}`, "PUT", `/api/weeks/${key}`, weekPayload(), 250);
       });
 
       elements.blockForm.addEventListener("submit", (event) => {
@@ -3548,12 +3235,7 @@
         saveState();
         renderBlocks();
         refreshSummary();
-        enqueueMutation(
-          `block:${block.id}`,
-          "POST",
-          `/api/days/${selectedDateKey}/blocks`,
-          blockPayload(block),
-        );
+        enqueueMutation(`block:${block.id}`, "POST", `/api/days/${selectedDateKey}/blocks`, blockPayload(block));
         elements.blockText.focus();
       });
 
@@ -3573,17 +3255,9 @@
       elements.timelineCanvas.addEventListener("click", (event) => {
         if (event.target.closest(".time-block")) return;
         const bounds = elements.timelineCanvas.getBoundingClientRect();
-        const clickedMinutes = Math.round(
-          ((event.clientY - bounds.top) / bounds.height) * 1440,
-        );
-        const startMinutes = Math.min(
-          1410,
-          Math.max(0, Math.round(clickedMinutes / 30) * 30),
-        );
-        const range = normalizeBlockRange(
-          minutesToTime(startMinutes),
-          minutesToTime(startMinutes + 30),
-        );
+        const clickedMinutes = Math.round(((event.clientY - bounds.top) / bounds.height) * 1440);
+        const startMinutes = Math.min(1410, Math.max(0, Math.round(clickedMinutes / 30) * 30));
+        const range = normalizeBlockRange(minutesToTime(startMinutes), minutesToTime(startMinutes + 30));
         elements.blockStart.value = range.start;
         elements.blockEnd.value = range.end;
         elements.blockText.focus();
@@ -3599,13 +3273,8 @@
 
       elements.blockEditForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        const block = ensureDay().blocks.find(
-          (item) => item.id === editingBlockId,
-        );
-        const range = readBlockRange(
-          elements.editBlockStart,
-          elements.editBlockEnd,
-        );
+        const block = ensureDay().blocks.find((item) => item.id === editingBlockId);
+        const range = readBlockRange(elements.editBlockStart, elements.editBlockEnd);
         const text = elements.editBlockText.value.trim();
         if (!block || !range || !text) return;
         block.text = text;
@@ -3616,12 +3285,7 @@
         saveState();
         renderBlocks();
         refreshSummary();
-        enqueueMutation(
-          `block:${block.id}`,
-          "PUT",
-          `/api/blocks/${encodeURIComponent(block.id)}`,
-          blockPayload(block),
-        );
+        enqueueMutation(`block:${block.id}`, "PUT", `/api/blocks/${encodeURIComponent(block.id)}`, blockPayload(block));
         elements.blockDialog.close();
         editingBlockId = null;
       });
@@ -3629,18 +3293,11 @@
       elements.deleteBlockButton.addEventListener("click", () => {
         if (!editingBlockId) return;
         const deletedId = editingBlockId;
-        ensureDay().blocks = ensureDay().blocks.filter(
-          (item) => item.id !== deletedId,
-        );
+        ensureDay().blocks = ensureDay().blocks.filter((item) => item.id !== deletedId);
         saveState();
         renderBlocks();
         refreshSummary();
-        enqueueMutation(
-          `block:${deletedId}`,
-          "DELETE",
-          `/api/blocks/${encodeURIComponent(deletedId)}`,
-          null,
-        );
+        enqueueMutation(`block:${deletedId}`, "DELETE", `/api/blocks/${encodeURIComponent(deletedId)}`, null);
         elements.blockDialog.close();
         editingBlockId = null;
       });
@@ -3678,12 +3335,7 @@
         saveState();
         renderTasks();
         refreshSummary();
-        enqueueMutation(
-          `task:${task.id}`,
-          "POST",
-          `/api/days/${selectedDateKey}/tasks`,
-          taskPayload(task),
-        );
+        enqueueMutation(`task:${task.id}`, "POST", `/api/days/${selectedDateKey}/tasks`, taskPayload(task));
         elements.taskText.focus();
       });
 
@@ -3694,12 +3346,7 @@
         item.text = event.target.value;
         saveState();
         refreshSummary();
-        scheduleMutation(
-          `task:${item.id}`,
-          "PUT",
-          `/api/tasks/${encodeURIComponent(item.id)}`,
-          taskPayload(item),
-        );
+        scheduleMutation(`task:${item.id}`, "PUT", `/api/tasks/${encodeURIComponent(item.id)}`, taskPayload(item));
       });
 
       elements.taskList.addEventListener("change", (event) => {
@@ -3715,12 +3362,7 @@
         saveState();
         renderTasks();
         refreshSummary();
-        enqueueMutation(
-          `task:${item.id}`,
-          "PUT",
-          `/api/tasks/${encodeURIComponent(item.id)}`,
-          taskPayload(item),
-        );
+        enqueueMutation(`task:${item.id}`, "PUT", `/api/tasks/${encodeURIComponent(item.id)}`, taskPayload(item));
       });
 
       elements.taskList.addEventListener("click", (event) => {
@@ -3728,18 +3370,11 @@
         if (!button) return;
         const row = button.closest("[data-item-id]");
         const deletedId = row.dataset.itemId;
-        ensureDay().tasks = ensureDay().tasks.filter(
-          (item) => item.id !== deletedId,
-        );
+        ensureDay().tasks = ensureDay().tasks.filter((item) => item.id !== deletedId);
         saveState();
         renderTasks();
         refreshSummary();
-        enqueueMutation(
-          `task:${deletedId}`,
-          "DELETE",
-          `/api/tasks/${encodeURIComponent(deletedId)}`,
-          null,
-        );
+        enqueueMutation(`task:${deletedId}`, "DELETE", `/api/tasks/${encodeURIComponent(deletedId)}`, null);
       });
 
       document.querySelectorAll("[data-task-filter]").forEach((button) => {
@@ -3753,33 +3388,20 @@
         ensureDay().notes = event.target.value;
         saveState();
         elements.notesCount.textContent = `${event.target.value.length} 字`;
-        scheduleMutation(
-          `notes:${selectedDateKey}`,
-          "PUT",
-          `/api/days/${selectedDateKey}/notes`,
-          { text: event.target.value },
-          700,
-        );
+        scheduleMutation(`notes:${selectedDateKey}`, "PUT", `/api/days/${selectedDateKey}/notes`, { text: event.target.value }, 700);
       });
 
       elements.exportButton.addEventListener("click", exportBackup);
       elements.exportCalendarButton.addEventListener("click", exportDayCalendar);
       elements.googleCalendarButton.addEventListener("click", async () => {
         if (!googleState.configured) {
-          window.alert(
-            `Google Calendar OAuth 尚未配置。\n回调地址：${
-              googleState.redirectUri || `${window.location.origin}/api/google/callback`
-            }`,
-          );
+          window.alert(`Google Calendar OAuth 尚未配置。\n回调地址：${googleState.redirectUri || `${window.location.origin}/api/google/callback`}`);
           return;
         }
         try {
           if (googleState.connected) {
             setSyncStatus("正在同步 Google 日历");
-            await apiRequest(
-              `/api/google/sync?day=${encodeURIComponent(selectedDateKey)}`,
-              { method: "POST" },
-            );
+            await apiRequest(`/api/google/sync?day=${encodeURIComponent(selectedDateKey)}`, { method: "POST" });
             await loadDayFromServer(selectedDateKey);
           } else {
             const result = await apiRequest("/api/google/connect", {
@@ -3823,10 +3445,7 @@
       window.setInterval(() => {
         if (serverOnline && !syncQueue.length && !syncInProgress) {
           const activeElement = document.activeElement;
-          const isEditing =
-            elements.blockDialog.open ||
-            (activeElement &&
-              activeElement.matches("input, textarea, select"));
+          const isEditing = elements.blockDialog.open || (activeElement && activeElement.matches("input, textarea, select"));
           if (!isEditing) void loadDayFromServer(selectedDateKey);
         } else {
           void flushSyncQueue();
