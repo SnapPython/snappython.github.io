@@ -610,11 +610,24 @@
       }
 
       .block-form {
-        grid-template-columns: 104px 108px minmax(0, 1fr) 38px;
+        grid-template-columns: 88px 88px 98px minmax(0, 1fr) 38px;
+        align-items: end;
       }
 
       .task-form {
         grid-template-columns: minmax(0, 1fr) 106px 38px;
+      }
+
+      .compact-field {
+        min-width: 0;
+        display: grid;
+        gap: 4px;
+      }
+
+      .compact-label {
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 850;
       }
 
       .entry-form input,
@@ -661,15 +674,10 @@
         border-bottom: 0;
       }
 
-      .block-row {
-        grid-template-columns: 18px 86px 96px minmax(0, 1fr) 30px;
-      }
-
       .task-row {
         grid-template-columns: 18px 92px minmax(0, 1fr) 30px;
       }
 
-      .row-time,
       .row-category {
         width: 100%;
         min-height: 32px;
@@ -681,9 +689,7 @@
         font-weight: 750;
       }
 
-      .row-time:hover,
       .row-category:hover,
-      .row-time:focus,
       .row-category:focus {
         border-color: var(--line);
         background: var(--surface-raised);
@@ -722,6 +728,379 @@
         color: var(--muted);
         font-size: 12px;
         text-align: center;
+      }
+
+      .schedule-tools {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+
+      .calendar-export {
+        min-height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 0 9px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .calendar-export:hover {
+        border-color: var(--line-strong);
+        color: var(--text);
+      }
+
+      .timeline-legend {
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        margin-bottom: 8px;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 750;
+      }
+
+      .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .legend-swatch {
+        width: 9px;
+        height: 9px;
+        border-radius: 2px;
+        background: var(--legend-color);
+      }
+
+      .legend-item[data-category="research"] {
+        --legend-color: var(--green);
+      }
+
+      .legend-item[data-category="course"] {
+        --legend-color: var(--blue);
+      }
+
+      .legend-item[data-category="life"] {
+        --legend-color: var(--gold);
+      }
+
+      .legend-item[data-category="health"] {
+        --legend-color: var(--coral);
+      }
+
+      .timeline-scroll {
+        position: relative;
+        height: 560px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--surface-raised);
+        overscroll-behavior: contain;
+        scrollbar-gutter: stable;
+      }
+
+      .timeline-canvas {
+        position: relative;
+        min-width: 0;
+        height: 1440px;
+        cursor: crosshair;
+      }
+
+      .timeline-grid,
+      .timeline-events {
+        position: absolute;
+        inset: 0;
+      }
+
+      .timeline-grid {
+        pointer-events: none;
+      }
+
+      .timeline-events {
+        left: 52px;
+        right: 5px;
+      }
+
+      .timeline-hour,
+      .timeline-half-hour {
+        position: absolute;
+        right: 0;
+        left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .timeline-half-hour {
+        left: 52px;
+        border-top-style: dashed;
+        opacity: 0.58;
+      }
+
+      .timeline-hour-label {
+        position: absolute;
+        top: -7px;
+        left: 7px;
+        width: 38px;
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 750;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .timeline-hour:first-child .timeline-hour-label {
+        top: 4px;
+      }
+
+      .time-block {
+        --block-color: var(--green);
+        --block-soft: var(--green-soft);
+        position: absolute;
+        min-width: 0;
+        overflow: hidden;
+        padding: 5px 7px;
+        border: 1px solid color-mix(in srgb, var(--block-color) 42%, var(--line));
+        border-left: 4px solid var(--block-color);
+        border-radius: 5px;
+        background: var(--block-soft);
+        color: var(--text);
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .time-block:hover,
+      .time-block:focus-visible {
+        z-index: 3;
+        border-color: var(--block-color);
+      }
+
+      .time-block[data-category="research"] {
+        --block-color: var(--green);
+        --block-soft: var(--green-soft);
+      }
+
+      .time-block[data-category="course"] {
+        --block-color: var(--blue);
+        --block-soft: var(--blue-soft);
+      }
+
+      .time-block[data-category="life"] {
+        --block-color: var(--gold);
+        --block-soft: var(--gold-soft);
+      }
+
+      .time-block[data-category="health"] {
+        --block-color: var(--coral);
+        --block-soft: var(--coral-soft);
+      }
+
+      .time-block[data-done="true"] {
+        opacity: 0.58;
+      }
+
+      .time-block[data-done="true"] .time-block-title {
+        text-decoration: line-through;
+      }
+
+      .time-block-title,
+      .time-block-meta {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .time-block-title {
+        font-size: 11px;
+        line-height: 1.25;
+        font-weight: 820;
+      }
+
+      .time-block-meta {
+        margin-top: 3px;
+        color: color-mix(in srgb, var(--block-color) 78%, var(--text));
+        font-size: 9px;
+        line-height: 1.2;
+        font-weight: 780;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .time-block[data-compact="true"] {
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+
+      .time-block[data-compact="true"] .time-block-meta {
+        display: none;
+      }
+
+      .timeline-empty {
+        position: absolute;
+        z-index: 1;
+        top: 31%;
+        right: 20px;
+        left: 72px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+        text-align: center;
+        pointer-events: none;
+      }
+
+      .current-time-line {
+        position: absolute;
+        z-index: 4;
+        right: 5px;
+        left: 45px;
+        border-top: 2px solid var(--coral);
+        pointer-events: none;
+      }
+
+      .current-time-line::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--coral);
+      }
+
+      .current-time-label {
+        position: absolute;
+        top: -10px;
+        right: 4px;
+        padding: 2px 4px;
+        border-radius: 4px;
+        background: var(--coral);
+        color: #ffffff;
+        font-size: 8px;
+        font-weight: 850;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .block-dialog {
+        width: min(440px, calc(100% - 24px));
+        max-height: calc(100vh - 32px);
+        padding: 0;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+      }
+
+      .block-dialog::backdrop {
+        background: rgba(7, 9, 11, 0.58);
+      }
+
+      .dialog-form {
+        display: grid;
+      }
+
+      .dialog-header {
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 13px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .dialog-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 830;
+      }
+
+      .dialog-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px 10px;
+        padding: 16px;
+      }
+
+      .dialog-field {
+        min-width: 0;
+        display: grid;
+        gap: 6px;
+      }
+
+      .dialog-field--wide {
+        grid-column: 1 / -1;
+      }
+
+      .dialog-field input,
+      .dialog-field select {
+        width: 100%;
+        min-height: 40px;
+        padding: 0 10px;
+        font-size: 13px;
+      }
+
+      .done-control {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 750;
+      }
+
+      .dialog-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 13px 16px;
+        border-top: 1px solid var(--line);
+      }
+
+      .dialog-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .dialog-button {
+        min-height: 36px;
+        padding: 0 13px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 820;
+      }
+
+      .dialog-button--primary {
+        border-color: var(--text);
+        background: var(--text);
+        color: var(--page);
+      }
+
+      .dialog-button--danger {
+        border-color: transparent;
+        color: var(--danger);
+      }
+
+      .dialog-button:hover {
+        border-color: var(--line-strong);
       }
 
       .task-header-tools {
@@ -1046,8 +1425,13 @@
           grid-template-columns: 1fr 1fr 38px;
         }
 
-        .block-form .entry-text {
-          grid-column: 1 / -1;
+        .block-form .compact-field--category {
+          grid-column: 1;
+          grid-row: 2;
+        }
+
+        .block-form .compact-field--text {
+          grid-column: 2 / -1;
           grid-row: 2;
         }
 
@@ -1070,25 +1454,46 @@
           grid-row: 1;
         }
 
-        .block-row {
-          grid-template-columns: 18px 80px minmax(0, 1fr) 30px;
-          padding: 5px 0;
+        .schedule-panel .panel-header {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 10px;
         }
 
-        .block-row .row-category {
-          grid-column: 2;
-          grid-row: 2;
+        .schedule-tools {
+          width: 100%;
+          justify-content: space-between;
         }
 
-        .block-row .row-text {
-          grid-column: 3;
-          grid-row: 1 / span 2;
-          height: 52px;
+        .timeline-scroll {
+          height: min(62vh, 540px);
+          scrollbar-gutter: auto;
         }
 
-        .block-row .delete-button {
-          grid-column: 4;
-          grid-row: 1 / span 2;
+        .timeline-canvas {
+          height: 1248px;
+        }
+
+        .timeline-events {
+          left: 46px;
+        }
+
+        .timeline-half-hour {
+          left: 46px;
+        }
+
+        .timeline-hour-label {
+          left: 3px;
+          width: 36px;
+        }
+
+        .current-time-line {
+          left: 39px;
+        }
+
+        .time-block {
+          padding-right: 5px;
+          padding-left: 5px;
         }
 
         .task-row {
@@ -1111,6 +1516,25 @@
 
         .app-card {
           min-height: 146px;
+        }
+
+        .block-dialog {
+          width: 100%;
+          max-width: none;
+          max-height: 88vh;
+          margin: auto 0 0;
+          border-right: 0;
+          border-bottom: 0;
+          border-left: 0;
+          border-radius: 8px 8px 0 0;
+        }
+
+        .dialog-body {
+          grid-template-columns: 1fr;
+        }
+
+        .dialog-field--wide {
+          grid-column: auto;
         }
 
         .footer-inner {
@@ -1320,36 +1744,84 @@
           <header class="panel-header">
             <div class="panel-heading">
               <p class="panel-kicker">TIME BLOCKS</p>
-              <h2 id="scheduleTitle">时间安排</h2>
+              <h2 id="scheduleTitle">24 小时时间轴</h2>
             </div>
-            <span class="panel-count" id="scheduleCount">0 项</span>
+            <div class="schedule-tools">
+              <span class="panel-count" id="scheduleCount">0 个时间块</span>
+              <button
+                class="calendar-export"
+                id="exportCalendarButton"
+                type="button"
+                title="导出当天日程"
+              >
+                <span aria-hidden="true">⇩</span>
+                日历
+              </button>
+            </div>
           </header>
           <div class="panel-body">
             <form class="entry-form block-form" id="blockForm">
-              <label class="sr-only" for="blockTime">开始时间</label>
-              <input id="blockTime" type="time" required />
-              <label class="sr-only" for="blockCategory">类别</label>
-              <select id="blockCategory">
-                <option value="research">研究</option>
-                <option value="course">课程</option>
-                <option value="life">生活</option>
-                <option value="health">健康</option>
-              </select>
-              <label class="sr-only" for="blockText">安排内容</label>
-              <input
-                class="entry-text"
-                id="blockText"
-                type="text"
-                maxlength="240"
-                placeholder="添加一个时间块"
-                autocomplete="off"
-                required
-              />
+              <label class="compact-field">
+                <span class="compact-label">开始</span>
+                <input id="blockStart" type="time" step="900" max="23:30" required />
+              </label>
+              <label class="compact-field">
+                <span class="compact-label">结束</span>
+                <input id="blockEnd" type="time" step="900" max="23:59" required />
+              </label>
+              <label class="compact-field compact-field--category">
+                <span class="compact-label">类别</span>
+                <select id="blockCategory">
+                  <option value="research">研究</option>
+                  <option value="course">课程</option>
+                  <option value="life">生活</option>
+                  <option value="health">健康</option>
+                </select>
+              </label>
+              <label class="compact-field compact-field--text">
+                <span class="compact-label">事项</span>
+                <input
+                  class="entry-text"
+                  id="blockText"
+                  type="text"
+                  maxlength="240"
+                  placeholder="添加一个时间块"
+                  autocomplete="off"
+                  required
+                />
+              </label>
               <button class="add-button" type="submit" aria-label="添加时间块" title="添加">
                 <span aria-hidden="true">＋</span>
               </button>
             </form>
-            <div class="list" id="blockList"></div>
+            <div class="timeline-legend" aria-label="时间块类别">
+              <span class="legend-item" data-category="research">
+                <span class="legend-swatch" aria-hidden="true"></span>研究
+              </span>
+              <span class="legend-item" data-category="course">
+                <span class="legend-swatch" aria-hidden="true"></span>课程
+              </span>
+              <span class="legend-item" data-category="life">
+                <span class="legend-swatch" aria-hidden="true"></span>生活
+              </span>
+              <span class="legend-item" data-category="health">
+                <span class="legend-swatch" aria-hidden="true"></span>健康
+              </span>
+            </div>
+            <div
+              class="timeline-scroll"
+              id="timelineScroll"
+              tabindex="0"
+              aria-label="当天 24 小时时间轴"
+            >
+              <div class="timeline-canvas" id="timelineCanvas">
+                <div class="timeline-grid" id="timelineGrid" aria-hidden="true"></div>
+                <div class="timeline-events" id="timelineEvents"></div>
+                <div class="current-time-line" id="currentTimeLine" hidden>
+                  <span class="current-time-label" id="currentTimeLabel"></span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -1446,6 +1918,79 @@
       </section>
     </main>
 
+    <dialog class="block-dialog" id="blockDialog" aria-labelledby="blockDialogTitle">
+      <form class="dialog-form" id="blockEditForm">
+        <header class="dialog-header">
+          <h2 class="dialog-title" id="blockDialogTitle">编辑时间块</h2>
+          <button
+            class="small-icon-button"
+            id="closeBlockDialog"
+            type="button"
+            aria-label="关闭"
+            title="关闭"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </header>
+        <div class="dialog-body">
+          <label class="dialog-field dialog-field--wide">
+            <span class="field-label">事项</span>
+            <input id="editBlockText" type="text" maxlength="240" required />
+          </label>
+          <label class="dialog-field">
+            <span class="field-label">开始</span>
+            <input
+              id="editBlockStart"
+              type="time"
+              step="900"
+              max="23:30"
+              required
+            />
+          </label>
+          <label class="dialog-field">
+            <span class="field-label">结束</span>
+            <input
+              id="editBlockEnd"
+              type="time"
+              step="900"
+              max="23:59"
+              required
+            />
+          </label>
+          <label class="dialog-field">
+            <span class="field-label">类别</span>
+            <select id="editBlockCategory">
+              <option value="research">研究</option>
+              <option value="course">课程</option>
+              <option value="life">生活</option>
+              <option value="health">健康</option>
+            </select>
+          </label>
+          <label class="done-control">
+            <input id="editBlockDone" type="checkbox" />
+            已完成
+          </label>
+        </div>
+        <footer class="dialog-footer">
+          <button
+            class="dialog-button dialog-button--danger"
+            id="deleteBlockButton"
+            type="button"
+          >
+            删除
+          </button>
+          <div class="dialog-actions">
+            <button class="dialog-button" id="cancelBlockEdit" type="button">
+              取消
+            </button>
+            <button class="dialog-button dialog-button--primary" type="submit">
+              保存
+            </button>
+          </div>
+        </footer>
+      </form>
+    </dialog>
+
     <footer class="footer">
       <div class="wrap footer-inner">
         <span>
@@ -1528,17 +2073,30 @@
       const elements = {
         appGrid: document.querySelector("#appGrid"),
         blockCategory: document.querySelector("#blockCategory"),
+        blockDialog: document.querySelector("#blockDialog"),
+        blockEditForm: document.querySelector("#blockEditForm"),
+        blockEnd: document.querySelector("#blockEnd"),
         blockForm: document.querySelector("#blockForm"),
-        blockList: document.querySelector("#blockList"),
+        blockStart: document.querySelector("#blockStart"),
         blockText: document.querySelector("#blockText"),
-        blockTime: document.querySelector("#blockTime"),
+        cancelBlockEdit: document.querySelector("#cancelBlockEdit"),
         clock: document.querySelector("#clock"),
+        closeBlockDialog: document.querySelector("#closeBlockDialog"),
         completionBar: document.querySelector("#completionBar"),
         completionValue: document.querySelector("#completionValue"),
+        currentTimeLabel: document.querySelector("#currentTimeLabel"),
+        currentTimeLine: document.querySelector("#currentTimeLine"),
         currentYear: document.querySelector("#currentYear"),
         dailyNotes: document.querySelector("#dailyNotes"),
         dayPrompt: document.querySelector("#dayPrompt"),
+        deleteBlockButton: document.querySelector("#deleteBlockButton"),
+        editBlockCategory: document.querySelector("#editBlockCategory"),
+        editBlockDone: document.querySelector("#editBlockDone"),
+        editBlockEnd: document.querySelector("#editBlockEnd"),
+        editBlockStart: document.querySelector("#editBlockStart"),
+        editBlockText: document.querySelector("#editBlockText"),
         exportButton: document.querySelector("#exportButton"),
+        exportCalendarButton: document.querySelector("#exportCalendarButton"),
         fullDate: document.querySelector("#fullDate"),
         greeting: document.querySelector("#greeting"),
         importButton: document.querySelector("#importButton"),
@@ -1559,6 +2117,10 @@
         taskText: document.querySelector("#taskText"),
         themeIcon: document.querySelector("#themeIcon"),
         themeToggle: document.querySelector("#themeToggle"),
+        timelineCanvas: document.querySelector("#timelineCanvas"),
+        timelineEvents: document.querySelector("#timelineEvents"),
+        timelineGrid: document.querySelector("#timelineGrid"),
+        timelineScroll: document.querySelector("#timelineScroll"),
         todayButton: document.querySelector("#todayButton"),
         weekGoal: document.querySelector("#weekGoal"),
         weekMilestone: document.querySelector("#weekMilestone"),
@@ -1569,6 +2131,7 @@
 
       let selectedDateKey = toDateKey(new Date());
       let taskFilter = "open";
+      let editingBlockId = null;
       let state = loadState();
 
       function createId() {
@@ -1584,6 +2147,63 @@
 
       function validCategory(value) {
         return Object.hasOwn(CATEGORY_LABELS, value) ? value : "life";
+      }
+
+      function timeToMinutes(value) {
+        if (!/^\d{2}:\d{2}$/.test(value || "")) return 0;
+        const [hour, minute] = value.split(":").map(Number);
+        return Math.min(1439, Math.max(0, hour * 60 + minute));
+      }
+
+      function minutesToTime(value) {
+        const minutes = Math.min(1439, Math.max(0, Math.round(value)));
+        const hour = Math.floor(minutes / 60);
+        const minute = minutes % 60;
+        return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+      }
+
+      function normalizeBlockRange(startValue, endValue) {
+        const fallbackStart = /^\d{2}:\d{2}$/.test(startValue || "")
+          ? startValue
+          : "09:00";
+        const startMinutes = Math.min(1410, timeToMinutes(fallbackStart));
+        const requestedEnd = /^\d{2}:\d{2}$/.test(endValue || "")
+          ? timeToMinutes(endValue)
+          : startMinutes + 60;
+        const endMinutes = Math.min(
+          1439,
+          Math.max(startMinutes + 30, requestedEnd),
+        );
+        return {
+          start: minutesToTime(startMinutes),
+          end: minutesToTime(endMinutes),
+        };
+      }
+
+      function readBlockRange(startInput, endInput) {
+        const startMinutes = timeToMinutes(startInput.value);
+        const endMinutes = timeToMinutes(endInput.value);
+        const minimumDuration = startMinutes === 1410 ? 29 : 30;
+        if (endMinutes - startMinutes < minimumDuration) {
+          endInput.setCustomValidity("结束时间需要晚于开始时间至少 30 分钟");
+          endInput.reportValidity();
+          return null;
+        }
+        endInput.setCustomValidity("");
+        return {
+          start: minutesToTime(startMinutes),
+          end: minutesToTime(endMinutes),
+        };
+      }
+
+      function keepEndAfterStart(startInput, endInput) {
+        const startMinutes = timeToMinutes(startInput.value);
+        const endMinutes = timeToMinutes(endInput.value);
+        const minimumEnd = Math.min(1439, startMinutes + 60);
+        if (endMinutes <= startMinutes || endMinutes - startMinutes < 30) {
+          endInput.value = minutesToTime(minimumEnd);
+        }
+        endInput.setCustomValidity("");
       }
 
       function makeDay() {
@@ -1611,13 +2231,20 @@
           };
         });
         const blocks = Array.isArray(source.blocks)
-          ? source.blocks.slice(0, 200).map((item) => ({
-              id: cleanText(item.id || createId(), 120),
-              time: /^\d{2}:\d{2}$/.test(item.time) ? item.time : "09:00",
-              category: validCategory(item.category),
-              text: cleanText(item.text, 240),
-              done: Boolean(item.done),
-            })).filter((item) => item.text.trim())
+          ? source.blocks.slice(0, 200).map((item) => {
+              const range = normalizeBlockRange(
+                item.start || item.time,
+                item.end,
+              );
+              return {
+                id: cleanText(item.id || createId(), 120),
+                start: range.start,
+                end: range.end,
+                category: validCategory(item.category),
+                text: cleanText(item.text, 240),
+                done: Boolean(item.done),
+              };
+            }).filter((item) => item.text.trim())
           : [];
         const tasks = Array.isArray(source.tasks)
           ? source.tasks.slice(0, 300).map((item) => ({
@@ -1848,56 +2475,155 @@
         elements.weekProgressValue.textContent = `${week.progress}%`;
       }
 
+      function renderTimelineGrid() {
+        elements.timelineGrid.innerHTML = Array.from({ length: 24 }, (_, hour) => {
+          const hourTop = (hour / 24) * 100;
+          const halfHourTop = ((hour + 0.5) / 24) * 100;
+          return `
+            <div class="timeline-hour" style="top: ${hourTop}%">
+              <span class="timeline-hour-label">${String(hour).padStart(2, "0")}:00</span>
+            </div>
+            <div class="timeline-half-hour" style="top: ${halfHourTop}%"></div>
+          `;
+        }).join("");
+      }
+
+      function layoutTimelineBlocks(blocks) {
+        const entries = blocks
+          .map((item) => ({
+            item,
+            startMinutes: timeToMinutes(item.start),
+            endMinutes: timeToMinutes(item.end),
+          }))
+          .sort(
+            (a, b) =>
+              a.startMinutes - b.startMinutes ||
+              a.endMinutes - b.endMinutes,
+          );
+        const groups = [];
+        let currentGroup = [];
+        let groupEnd = -1;
+
+        entries.forEach((entry) => {
+          if (currentGroup.length && entry.startMinutes >= groupEnd) {
+            groups.push(currentGroup);
+            currentGroup = [];
+            groupEnd = -1;
+          }
+          currentGroup.push(entry);
+          groupEnd = Math.max(groupEnd, entry.endMinutes);
+        });
+        if (currentGroup.length) groups.push(currentGroup);
+
+        return groups.flatMap((group) => {
+          const laneEnds = [];
+          group.forEach((entry) => {
+            let lane = laneEnds.findIndex((end) => end <= entry.startMinutes);
+            if (lane === -1) lane = laneEnds.length;
+            laneEnds[lane] = entry.endMinutes;
+            entry.lane = lane;
+          });
+          const laneCount = Math.max(1, laneEnds.length);
+          return group.map((entry) => ({ ...entry, laneCount }));
+        });
+      }
+
       function renderBlocks() {
         const day = ensureDay();
-        const blocks = [...day.blocks].sort((a, b) => a.time.localeCompare(b.time));
-        elements.scheduleCount.textContent = `${blocks.length} 项`;
+        const blocks = [...day.blocks].sort((a, b) =>
+          a.start.localeCompare(b.start),
+        );
+        const positionedBlocks = layoutTimelineBlocks(blocks);
+        elements.scheduleCount.textContent = `${blocks.length} 个时间块`;
 
-        if (!blocks.length) {
-          elements.blockList.innerHTML =
-            '<div class="empty-state">这一天还没有时间安排</div>';
+        if (!positionedBlocks.length) {
+          elements.timelineEvents.innerHTML =
+            '<div class="timeline-empty">这一天还没有时间块</div>';
+          updateCurrentTimeLine();
           return;
         }
 
-        elements.blockList.innerHTML = blocks
-          .map(
-            (item) => `
-              <div class="list-row block-row" data-item-id="${escapeHTML(item.id)}">
-                <input
-                  class="item-check"
-                  type="checkbox"
-                  ${item.done ? "checked" : ""}
-                  aria-label="标记时间块为完成"
-                />
-                <input
-                  class="row-time"
-                  type="time"
-                  value="${escapeHTML(item.time)}"
-                  aria-label="开始时间"
-                />
-                <select class="row-category" aria-label="时间块类别">
-                  ${categoryOptions(item.category)}
-                </select>
-                <input
-                  class="row-text"
-                  type="text"
-                  maxlength="240"
-                  value="${escapeHTML(item.text)}"
-                  aria-label="时间块内容"
-                />
-                <button
-                  class="delete-button"
-                  type="button"
-                  data-action="delete-block"
-                  aria-label="删除时间块"
-                  title="删除"
-                >
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-            `,
-          )
+        elements.timelineEvents.innerHTML = positionedBlocks
+          .map(({ item, startMinutes, endMinutes, lane, laneCount }) => {
+            const top = (startMinutes / 1440) * 100;
+            const height = ((endMinutes - startMinutes) / 1440) * 100;
+            const laneWidth = 100 / laneCount;
+            const left = lane * laneWidth;
+            const duration = endMinutes - startMinutes;
+            return `
+              <button
+                class="time-block"
+                type="button"
+                data-item-id="${escapeHTML(item.id)}"
+                data-category="${item.category}"
+                data-done="${item.done}"
+                data-compact="${duration < 45}"
+                style="
+                  top: ${top}%;
+                  height: ${height}%;
+                  left: calc(${left}% + 3px);
+                  width: calc(${laneWidth}% - 6px);
+                "
+                aria-label="${escapeHTML(
+                  `${item.start} 至 ${item.end}，${item.text}，${
+                    CATEGORY_LABELS[item.category]
+                  }`,
+                )}"
+              >
+                <span class="time-block-title">${escapeHTML(item.text)}</span>
+                <span class="time-block-meta">
+                  ${item.start} - ${item.end} · ${CATEGORY_LABELS[item.category]}
+                </span>
+              </button>
+            `;
+          })
           .join("");
+        updateCurrentTimeLine();
+      }
+
+      function updateCurrentTimeLine() {
+        const now = new Date();
+        if (selectedDateKey !== toDateKey(now)) {
+          elements.currentTimeLine.hidden = true;
+          return;
+        }
+        const minutes = now.getHours() * 60 + now.getMinutes();
+        elements.currentTimeLine.hidden = false;
+        elements.currentTimeLine.style.top = `${(minutes / 1440) * 100}%`;
+        elements.currentTimeLabel.textContent = minutesToTime(minutes);
+      }
+
+      function scrollTimelineToFocus() {
+        window.requestAnimationFrame(() => {
+          const day = ensureDay();
+          const now = new Date();
+          const firstBlock = [...day.blocks].sort((a, b) =>
+            a.start.localeCompare(b.start),
+          )[0];
+          const focusMinutes =
+            selectedDateKey === toDateKey(now)
+              ? now.getHours() * 60 + now.getMinutes()
+              : firstBlock
+                ? timeToMinutes(firstBlock.start)
+                : 8 * 60;
+          const target =
+            (focusMinutes / 1440) * elements.timelineCanvas.offsetHeight -
+            elements.timelineScroll.clientHeight * 0.2;
+          elements.timelineScroll.scrollTop = Math.max(0, target);
+        });
+      }
+
+      function openBlockDialog(id) {
+        const block = ensureDay().blocks.find((item) => item.id === id);
+        if (!block) return;
+        editingBlockId = id;
+        elements.editBlockText.value = block.text;
+        elements.editBlockStart.value = block.start;
+        elements.editBlockEnd.value = block.end;
+        elements.editBlockCategory.value = block.category;
+        elements.editBlockDone.checked = block.done;
+        elements.blockDialog.showModal();
+        elements.editBlockText.focus();
       }
 
       function renderTasks() {
@@ -1983,7 +2709,7 @@
 
         const sortedBlocks = [...day.blocks]
           .filter((item) => !item.done)
-          .sort((a, b) => a.time.localeCompare(b.time));
+          .sort((a, b) => a.start.localeCompare(b.start));
         let nextBlock = sortedBlocks[0];
 
         if (selectedDateKey === toDateKey(new Date())) {
@@ -1991,29 +2717,32 @@
           const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(
             now.getMinutes(),
           ).padStart(2, "0")}`;
-          nextBlock =
-            sortedBlocks.find((item) => item.time >= currentTime) || sortedBlocks[0];
+          nextBlock = sortedBlocks.find((item) => item.end > currentTime);
         }
 
         if (nextBlock) {
           elements.nextBlockTitle.textContent = nextBlock.text;
-          elements.nextBlockTime.textContent = `${nextBlock.time} · ${
-            CATEGORY_LABELS[nextBlock.category]
-          }`;
+          elements.nextBlockTime.textContent =
+            `${nextBlock.start} - ${nextBlock.end} · ${
+              CATEGORY_LABELS[nextBlock.category]
+            }`;
         } else {
           elements.nextBlockTitle.textContent = "暂无安排";
           elements.nextBlockTime.textContent = "留给自由推进";
         }
       }
 
-      function suggestBlockTime() {
-        if (selectedDateKey !== toDateKey(new Date())) return "09:00";
+      function suggestBlockRange() {
+        if (selectedDateKey !== toDateKey(new Date())) {
+          return { start: "09:00", end: "10:00" };
+        }
         const now = new Date();
         const currentMinutes = now.getHours() * 60 + now.getMinutes();
         const nextSlot = Math.min(23 * 60 + 30, Math.ceil((currentMinutes + 1) / 30) * 30);
-        const hour = Math.floor(nextSlot / 60);
-        const minute = nextSlot % 60;
-        return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+        return normalizeBlockRange(
+          minutesToTime(nextSlot),
+          minutesToTime(nextSlot + 60),
+        );
       }
 
       function renderSelectedDay() {
@@ -2025,7 +2754,10 @@
         renderTasks();
         renderNotes();
         refreshSummary();
-        elements.blockTime.value = suggestBlockTime();
+        const suggestedRange = suggestBlockRange();
+        elements.blockStart.value = suggestedRange.start;
+        elements.blockEnd.value = suggestedRange.end;
+        scrollTimelineToFocus();
       }
 
       function setSelectedDate(key) {
@@ -2065,6 +2797,7 @@
 
         elements.currentYear.textContent = now.getFullYear();
         refreshSummary();
+        updateCurrentTimeLine();
       }
 
       function applyThemeIcon() {
@@ -2158,6 +2891,64 @@
         } finally {
           window.clearTimeout(timeout);
         }
+      }
+
+      function escapeCalendarText(value) {
+        return String(value)
+          .replaceAll("\\", "\\\\")
+          .replaceAll("\n", "\\n")
+          .replaceAll(",", "\\,")
+          .replaceAll(";", "\\;");
+      }
+
+      function exportDayCalendar() {
+        const blocks = [...ensureDay().blocks].sort((a, b) =>
+          a.start.localeCompare(b.start),
+        );
+        if (!blocks.length) {
+          window.alert("这一天还没有可以导出的时间块。");
+          return;
+        }
+
+        const dateStamp = selectedDateKey.replaceAll("-", "");
+        const generatedAt = new Date()
+          .toISOString()
+          .replaceAll("-", "")
+          .replaceAll(":", "")
+          .replace(/\.\d{3}Z$/, "Z");
+        const events = blocks.flatMap((item) => [
+          "BEGIN:VEVENT",
+          `UID:${escapeCalendarText(item.id)}@snappython.github.io`,
+          `DTSTAMP:${generatedAt}`,
+          `DTSTART:${dateStamp}T${item.start.replace(":", "")}00`,
+          `DTEND:${dateStamp}T${item.end.replace(":", "")}00`,
+          `SUMMARY:${escapeCalendarText(item.text)}`,
+          `CATEGORIES:${escapeCalendarText(CATEGORY_LABELS[item.category])}`,
+          `X-SNAP-DONE:${item.done ? "TRUE" : "FALSE"}`,
+          "END:VEVENT",
+        ]);
+        const calendar = [
+          "BEGIN:VCALENDAR",
+          "VERSION:2.0",
+          "PRODID:-//SnapPython//Graduate Life Cockpit//ZH-CN",
+          "CALSCALE:GREGORIAN",
+          "METHOD:PUBLISH",
+          `X-WR-CALNAME:${selectedDateKey} 生活驾驶舱`,
+          ...events,
+          "END:VCALENDAR",
+          "",
+        ].join("\r\n");
+        const blob = new Blob([calendar], {
+          type: "text/calendar;charset=utf-8",
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `schedule-${selectedDateKey}.ics`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
       }
 
       function exportBackup() {
@@ -2264,10 +3055,12 @@
       elements.blockForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const text = elements.blockText.value.trim();
-        if (!text) return;
+        const range = readBlockRange(elements.blockStart, elements.blockEnd);
+        if (!text || !range) return;
         ensureDay().blocks.push({
           id: createId(),
-          time: elements.blockTime.value || "09:00",
+          start: range.start,
+          end: range.end,
           category: validCategory(elements.blockCategory.value),
           text,
           done: false,
@@ -2279,42 +3072,96 @@
         elements.blockText.focus();
       });
 
-      elements.blockList.addEventListener("input", (event) => {
-        if (!event.target.classList.contains("row-text")) return;
-        const item = findItem(ensureDay().blocks, event.target);
-        if (!item) return;
-        item.text = event.target.value;
-        saveState();
-        refreshSummary();
+      elements.blockStart.addEventListener("change", () => {
+        keepEndAfterStart(elements.blockStart, elements.blockEnd);
       });
 
-      elements.blockList.addEventListener("change", (event) => {
-        const item = findItem(ensureDay().blocks, event.target);
-        if (!item) return;
-        if (event.target.classList.contains("item-check")) {
-          item.done = event.target.checked;
-        } else if (event.target.classList.contains("row-time")) {
-          item.time = event.target.value || "09:00";
-        } else if (event.target.classList.contains("row-category")) {
-          item.category = validCategory(event.target.value);
-        } else {
-          return;
-        }
+      elements.blockEnd.addEventListener("input", () => {
+        elements.blockEnd.setCustomValidity("");
+      });
+
+      elements.timelineEvents.addEventListener("click", (event) => {
+        const block = event.target.closest(".time-block");
+        if (block) openBlockDialog(block.dataset.itemId);
+      });
+
+      elements.timelineCanvas.addEventListener("click", (event) => {
+        if (event.target.closest(".time-block")) return;
+        const bounds = elements.timelineCanvas.getBoundingClientRect();
+        const clickedMinutes = Math.round(
+          ((event.clientY - bounds.top) / bounds.height) * 1440,
+        );
+        const startMinutes = Math.min(
+          1410,
+          Math.max(0, Math.round(clickedMinutes / 30) * 30),
+        );
+        const range = normalizeBlockRange(
+          minutesToTime(startMinutes),
+          minutesToTime(startMinutes + 60),
+        );
+        elements.blockStart.value = range.start;
+        elements.blockEnd.value = range.end;
+        elements.blockText.focus();
+      });
+
+      elements.editBlockStart.addEventListener("change", () => {
+        keepEndAfterStart(elements.editBlockStart, elements.editBlockEnd);
+      });
+
+      elements.editBlockEnd.addEventListener("input", () => {
+        elements.editBlockEnd.setCustomValidity("");
+      });
+
+      elements.blockEditForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const block = ensureDay().blocks.find(
+          (item) => item.id === editingBlockId,
+        );
+        const range = readBlockRange(
+          elements.editBlockStart,
+          elements.editBlockEnd,
+        );
+        const text = elements.editBlockText.value.trim();
+        if (!block || !range || !text) return;
+        block.text = text;
+        block.start = range.start;
+        block.end = range.end;
+        block.category = validCategory(elements.editBlockCategory.value);
+        block.done = elements.editBlockDone.checked;
         saveState();
         renderBlocks();
         refreshSummary();
+        elements.blockDialog.close();
+        editingBlockId = null;
       });
 
-      elements.blockList.addEventListener("click", (event) => {
-        const button = event.target.closest('[data-action="delete-block"]');
-        if (!button) return;
-        const row = button.closest("[data-item-id]");
+      elements.deleteBlockButton.addEventListener("click", () => {
+        if (!editingBlockId) return;
         ensureDay().blocks = ensureDay().blocks.filter(
-          (item) => item.id !== row.dataset.itemId,
+          (item) => item.id !== editingBlockId,
         );
         saveState();
         renderBlocks();
         refreshSummary();
+        elements.blockDialog.close();
+        editingBlockId = null;
+      });
+
+      elements.closeBlockDialog.addEventListener("click", () => {
+        elements.blockDialog.close();
+        editingBlockId = null;
+      });
+
+      elements.cancelBlockEdit.addEventListener("click", () => {
+        elements.blockDialog.close();
+        editingBlockId = null;
+      });
+
+      elements.blockDialog.addEventListener("click", (event) => {
+        if (event.target === elements.blockDialog) {
+          elements.blockDialog.close();
+          editingBlockId = null;
+        }
       });
 
       elements.taskForm.addEventListener("submit", (event) => {
@@ -2385,6 +3232,7 @@
       });
 
       elements.exportButton.addEventListener("click", exportBackup);
+      elements.exportCalendarButton.addEventListener("click", exportDayCalendar);
       elements.importButton.addEventListener("click", () => {
         elements.importFile.click();
       });
@@ -2393,7 +3241,19 @@
         if (file) importBackup(file);
       });
 
+      window.addEventListener("storage", (event) => {
+        if (event.key !== STORAGE_KEY || !event.newValue) return;
+        try {
+          state = normalizeState(JSON.parse(event.newValue));
+          renderSelectedDay();
+          elements.saveState.textContent = "已从其他页面同步";
+        } catch {
+          // Ignore incomplete writes from another tab.
+        }
+      });
+
       renderApps();
+      renderTimelineGrid();
       renderSelectedDay();
       updateClock();
       applyThemeIcon();
