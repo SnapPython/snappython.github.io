@@ -1,0 +1,3845 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#17191c" />
+    <title>研究生生活驾驶舱 | SnapPython</title>
+    <meta
+      name="description"
+      content="用于安排研究、课程与生活的个人日程工作台。"
+    />
+    <script>
+      try {
+        const savedTheme = localStorage.getItem("life-cockpit-theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme =
+          savedTheme || (prefersDark ? "dark" : "light");
+      } catch {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --page: #f3f5f6;
+        --surface: #ffffff;
+        --surface-soft: #eef1f2;
+        --surface-raised: #f9fafb;
+        --band: #17191c;
+        --band-soft: #24272c;
+        --text: #202327;
+        --text-on-band: #f7f8f6;
+        --muted: #687078;
+        --muted-on-band: #aeb4ba;
+        --line: #dce1e4;
+        --line-strong: #c8ced2;
+        --line-on-band: #393d43;
+        --green: #178060;
+        --green-soft: #dcefe8;
+        --blue: #2d67b2;
+        --blue-soft: #e2ebf7;
+        --coral: #c55b45;
+        --coral-soft: #f6e6e1;
+        --violet: #7658a6;
+        --violet-soft: #ece6f5;
+        --gold: #9a6a13;
+        --gold-soft: #f4ecd9;
+        --danger: #b7463b;
+        --focus: #2767c7;
+        --shadow: 0 8px 24px rgba(24, 28, 33, 0.06);
+        --radius: 8px;
+      }
+
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --page: #111315;
+        --surface: #1b1e22;
+        --surface-soft: #25292e;
+        --surface-raised: #202328;
+        --band: #080a0c;
+        --band-soft: #171a1e;
+        --text: #f0f2f3;
+        --text-on-band: #f7f8f6;
+        --muted: #a4abb2;
+        --muted-on-band: #aeb4ba;
+        --line: #30353b;
+        --line-strong: #424850;
+        --line-on-band: #30343a;
+        --green: #65c6a1;
+        --green-soft: #1d3a31;
+        --blue: #82ace3;
+        --blue-soft: #24364e;
+        --coral: #ee927f;
+        --coral-soft: #482d29;
+        --violet: #b79ae2;
+        --violet-soft: #392f4b;
+        --gold: #dfb563;
+        --gold-soft: #413821;
+        --danger: #ef8c82;
+        --focus: #7db0f3;
+        --shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: var(--page);
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        min-height: 100vh;
+        background: var(--page);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "Microsoft YaHei", sans-serif;
+        letter-spacing: 0;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      button {
+        color: inherit;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      input,
+      select,
+      textarea {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--text);
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: var(--muted);
+        opacity: 0.82;
+      }
+
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 auto;
+        margin: 0;
+        accent-color: var(--green);
+        cursor: pointer;
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 2px;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .wrap {
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        border-bottom: 1px solid var(--line);
+        background: var(--page);
+      }
+
+      .header-inner {
+        min-height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .brand {
+        min-width: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        border-radius: 7px;
+        background: var(--text);
+        color: var(--page);
+        font-size: 15px;
+        font-weight: 900;
+      }
+
+      .brand-copy {
+        min-width: 0;
+        display: grid;
+        gap: 2px;
+      }
+
+      .brand-name {
+        font-size: 14px;
+        font-weight: 850;
+        line-height: 1.2;
+      }
+
+      .brand-subtitle {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 650;
+        line-height: 1.2;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .icon-control,
+      .small-icon-button {
+        display: inline-grid;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        line-height: 1;
+      }
+
+      .icon-control {
+        width: 38px;
+        height: 38px;
+        font-size: 17px;
+      }
+
+      .small-icon-button {
+        width: 34px;
+        height: 34px;
+        font-size: 18px;
+      }
+
+      .icon-control:hover,
+      .small-icon-button:hover {
+        border-color: var(--line-strong);
+        background: var(--surface-soft);
+      }
+
+      .day-band {
+        background: var(--band);
+        color: var(--text-on-band);
+      }
+
+      .day-layout {
+        min-height: 232px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.18fr) minmax(480px, 0.82fr);
+        align-items: stretch;
+        gap: 48px;
+      }
+
+      .day-lead {
+        min-width: 0;
+        align-self: center;
+        padding: 30px 0 34px;
+      }
+
+      .date-toolbar {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-bottom: 23px;
+      }
+
+      .date-button,
+      .today-button {
+        min-height: 34px;
+        border: 1px solid var(--line-on-band);
+        border-radius: 6px;
+        background: var(--band-soft);
+        color: var(--text-on-band);
+        cursor: pointer;
+      }
+
+      .date-button {
+        width: 34px;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        font-size: 18px;
+      }
+
+      .today-button {
+        padding: 0 12px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .date-button:hover,
+      .today-button:hover {
+        border-color: #656b73;
+      }
+
+      .planner-date {
+        width: 150px;
+        min-height: 34px;
+        padding: 0 9px;
+        border-color: var(--line-on-band);
+        background: var(--band-soft);
+        color: var(--text-on-band);
+        color-scheme: dark;
+        font-size: 12px;
+        font-weight: 750;
+      }
+
+      .full-date {
+        margin: 0 0 6px;
+        color: #6ed2aa;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.16;
+        font-weight: 850;
+        letter-spacing: 0;
+      }
+
+      .day-prompt {
+        margin: 11px 0 0;
+        color: var(--muted-on-band);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .day-summary {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: 0.82fr 0.82fr 1.36fr;
+        align-items: center;
+        border-left: 1px solid var(--line-on-band);
+      }
+
+      .summary-item {
+        min-width: 0;
+        min-height: 92px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 22px;
+        border-right: 1px solid var(--line-on-band);
+      }
+
+      .summary-item:last-child {
+        border-right: 0;
+      }
+
+      .summary-label {
+        margin-bottom: 8px;
+        color: var(--muted-on-band);
+        font-size: 10px;
+        font-weight: 850;
+      }
+
+      .summary-value {
+        overflow: hidden;
+        color: var(--text-on-band);
+        font-size: 23px;
+        line-height: 1.2;
+        font-weight: 820;
+        font-variant-numeric: tabular-nums;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .summary-value--small {
+        font-size: 15px;
+      }
+
+      .summary-detail {
+        margin-top: 5px;
+        overflow: hidden;
+        color: var(--muted-on-band);
+        font-size: 11px;
+        line-height: 1.4;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .progress-track {
+        width: 100%;
+        height: 4px;
+        margin-top: 10px;
+        overflow: hidden;
+        border-radius: 2px;
+        background: var(--band-soft);
+      }
+
+      .progress-fill {
+        width: 0;
+        height: 100%;
+        background: #6ed2aa;
+        transition: width 180ms ease;
+      }
+
+      .main-content {
+        padding: 30px 0 52px;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        align-items: start;
+        gap: 16px;
+      }
+
+      .panel {
+        min-width: 0;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .priority-panel,
+      .schedule-panel {
+        grid-column: span 7;
+      }
+
+      .week-panel,
+      .tasks-panel {
+        grid-column: span 5;
+      }
+
+      .notes-panel {
+        grid-column: 1 / -1;
+      }
+
+      .panel-header {
+        min-height: 66px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .panel-heading {
+        min-width: 0;
+      }
+
+      .panel-kicker,
+      .section-kicker {
+        margin: 0 0 4px;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 850;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.25;
+        font-weight: 830;
+        letter-spacing: 0;
+      }
+
+      .panel-count,
+      .week-range {
+        flex: 0 0 auto;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 750;
+      }
+
+      .panel-body {
+        padding: 16px 18px 18px;
+      }
+
+      .priority-list {
+        display: grid;
+      }
+
+      .priority-row {
+        min-height: 56px;
+        display: grid;
+        grid-template-columns: 18px 30px minmax(0, 1fr);
+        align-items: center;
+        gap: 11px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .priority-row:last-child {
+        border-bottom: 0;
+      }
+
+      .priority-index {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 850;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .priority-input,
+      .row-text {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+      }
+
+      .priority-input {
+        height: 42px;
+        padding: 0;
+        font-size: 14px;
+        font-weight: 680;
+      }
+
+      .priority-row:has(input[type="checkbox"]:checked) .priority-input,
+      .list-row:has(input[type="checkbox"]:checked) .row-text {
+        color: var(--muted);
+        text-decoration: line-through;
+      }
+
+      .priority-input:focus,
+      .row-text:focus {
+        outline: 0;
+      }
+
+      .priority-row:focus-within {
+        box-shadow: inset 3px 0 0 var(--green);
+      }
+
+      .week-fields {
+        display: grid;
+        gap: 14px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+
+      .field-label {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .week-textarea,
+      .notes-textarea {
+        width: 100%;
+        resize: vertical;
+        line-height: 1.6;
+      }
+
+      .week-textarea {
+        min-height: 72px;
+        padding: 10px 11px;
+        font-size: 13px;
+      }
+
+      .milestone-input {
+        width: 100%;
+        min-height: 38px;
+        padding: 0 11px;
+        font-size: 13px;
+      }
+
+      .range-line {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 42px;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .week-progress {
+        width: 100%;
+        accent-color: var(--violet);
+        cursor: pointer;
+      }
+
+      .range-value {
+        color: var(--violet);
+        font-size: 12px;
+        font-weight: 850;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .entry-form {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 11px;
+      }
+
+      .block-form {
+        grid-template-columns: 88px 88px 98px minmax(0, 1fr) 38px;
+        align-items: end;
+      }
+
+      .task-form {
+        grid-template-columns: minmax(0, 1fr) 106px 38px;
+      }
+
+      .compact-field {
+        min-width: 0;
+        display: grid;
+        gap: 4px;
+      }
+
+      .compact-label {
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 850;
+      }
+
+      .entry-form input,
+      .entry-form select {
+        width: 100%;
+        min-height: 38px;
+        padding: 0 10px;
+        font-size: 12px;
+      }
+
+      .add-button {
+        width: 38px;
+        height: 38px;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 1px solid var(--text);
+        border-radius: 6px;
+        background: var(--text);
+        color: var(--page);
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      .add-button:hover {
+        opacity: 0.88;
+      }
+
+      .list {
+        display: grid;
+      }
+
+      .list-row {
+        min-width: 0;
+        min-height: 48px;
+        display: grid;
+        align-items: center;
+        gap: 9px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .list-row:last-child {
+        border-bottom: 0;
+      }
+
+      .task-row {
+        grid-template-columns: 18px 92px minmax(0, 1fr) 30px;
+      }
+
+      .row-category {
+        width: 100%;
+        min-height: 32px;
+        padding: 0 6px;
+        border-color: transparent;
+        background: transparent;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 750;
+      }
+
+      .row-category:hover,
+      .row-category:focus {
+        border-color: var(--line);
+        background: var(--surface-raised);
+      }
+
+      .row-text {
+        height: 38px;
+        padding: 0 2px;
+        font-size: 13px;
+      }
+
+      .delete-button {
+        width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+      }
+
+      .delete-button:hover {
+        background: var(--coral-soft);
+        color: var(--danger);
+      }
+
+      .empty-state {
+        min-height: 74px;
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+      }
+
+      .schedule-tools {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 9px;
+      }
+
+      .calendar-export {
+        min-height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 0 9px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .calendar-export:hover {
+        border-color: var(--line-strong);
+        color: var(--text);
+      }
+
+      .calendar-export[data-connected="true"] {
+        border-color: color-mix(in srgb, var(--green) 45%, var(--line));
+        color: var(--green);
+      }
+
+      .calendar-export[data-state="error"] {
+        border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+        color: var(--danger);
+      }
+
+      .timeline-legend {
+        min-height: 32px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        margin-bottom: 8px;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 750;
+      }
+
+      .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .legend-swatch {
+        width: 9px;
+        height: 9px;
+        border-radius: 2px;
+        background: var(--legend-color);
+      }
+
+      .legend-item[data-category="research"] {
+        --legend-color: var(--green);
+      }
+
+      .legend-item[data-category="course"] {
+        --legend-color: var(--blue);
+      }
+
+      .legend-item[data-category="life"] {
+        --legend-color: var(--gold);
+      }
+
+      .legend-item[data-category="health"] {
+        --legend-color: var(--coral);
+      }
+
+      .timeline-scroll {
+        position: relative;
+        height: 560px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--surface-raised);
+        overscroll-behavior: contain;
+        scrollbar-gutter: stable;
+      }
+
+      .timeline-canvas {
+        position: relative;
+        min-width: 0;
+        height: 1440px;
+        cursor: crosshair;
+      }
+
+      .timeline-grid,
+      .timeline-events {
+        position: absolute;
+        inset: 0;
+      }
+
+      .timeline-grid {
+        pointer-events: none;
+      }
+
+      .timeline-events {
+        left: 52px;
+        right: 5px;
+      }
+
+      .timeline-hour,
+      .timeline-half-hour {
+        position: absolute;
+        right: 0;
+        left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .timeline-half-hour {
+        left: 52px;
+        border-top-style: dashed;
+        opacity: 0.58;
+      }
+
+      .timeline-hour-label {
+        position: absolute;
+        top: -7px;
+        left: 7px;
+        width: 38px;
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 750;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .timeline-hour:first-child .timeline-hour-label {
+        top: 4px;
+      }
+
+      .time-block {
+        --block-color: var(--green);
+        --block-soft: var(--green-soft);
+        position: absolute;
+        min-width: 0;
+        overflow: hidden;
+        padding: 5px 7px;
+        border: 1px solid color-mix(in srgb, var(--block-color) 42%, var(--line));
+        border-left: 4px solid var(--block-color);
+        border-radius: 5px;
+        background: var(--block-soft);
+        color: var(--text);
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .time-block:hover,
+      .time-block:focus-visible {
+        z-index: 3;
+        border-color: var(--block-color);
+      }
+
+      .time-block[data-category="research"] {
+        --block-color: var(--green);
+        --block-soft: var(--green-soft);
+      }
+
+      .time-block[data-category="course"] {
+        --block-color: var(--blue);
+        --block-soft: var(--blue-soft);
+      }
+
+      .time-block[data-category="life"] {
+        --block-color: var(--gold);
+        --block-soft: var(--gold-soft);
+      }
+
+      .time-block[data-category="health"] {
+        --block-color: var(--coral);
+        --block-soft: var(--coral-soft);
+      }
+
+      .time-block[data-done="true"] {
+        opacity: 0.58;
+      }
+
+      .time-block[data-done="true"] .time-block-title {
+        text-decoration: line-through;
+      }
+
+      .time-block[data-sync-state^="pending"],
+      .time-block[data-sync-state="error"] {
+        border-style: dashed;
+      }
+
+      .time-block-title,
+      .time-block-meta {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .time-block-title {
+        font-size: 11px;
+        line-height: 1.25;
+        font-weight: 820;
+      }
+
+      .time-block-meta {
+        margin-top: 3px;
+        color: color-mix(in srgb, var(--block-color) 78%, var(--text));
+        font-size: 9px;
+        line-height: 1.2;
+        font-weight: 780;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .time-block[data-compact="true"] {
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+
+      .time-block[data-compact="true"] .time-block-meta {
+        display: none;
+      }
+
+      .timeline-empty {
+        position: absolute;
+        z-index: 1;
+        top: 31%;
+        right: 20px;
+        left: 72px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+        text-align: center;
+        pointer-events: none;
+      }
+
+      .current-time-line {
+        position: absolute;
+        z-index: 4;
+        right: 5px;
+        left: 45px;
+        border-top: 2px solid var(--coral);
+        pointer-events: none;
+      }
+
+      .current-time-line::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--coral);
+      }
+
+      .current-time-label {
+        position: absolute;
+        top: -10px;
+        right: 4px;
+        padding: 2px 4px;
+        border-radius: 4px;
+        background: var(--coral);
+        color: #ffffff;
+        font-size: 8px;
+        font-weight: 850;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .block-dialog {
+        width: min(440px, calc(100% - 24px));
+        max-height: calc(100vh - 32px);
+        padding: 0;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+      }
+
+      .block-dialog::backdrop {
+        background: rgba(7, 9, 11, 0.58);
+      }
+
+      .dialog-form {
+        display: grid;
+      }
+
+      .dialog-header {
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 13px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .dialog-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 830;
+      }
+
+      .dialog-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px 10px;
+        padding: 16px;
+      }
+
+      .dialog-field {
+        min-width: 0;
+        display: grid;
+        gap: 6px;
+      }
+
+      .dialog-field--wide {
+        grid-column: 1 / -1;
+      }
+
+      .dialog-field input,
+      .dialog-field select {
+        width: 100%;
+        min-height: 40px;
+        padding: 0 10px;
+        font-size: 13px;
+      }
+
+      .done-control {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 750;
+      }
+
+      .dialog-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 13px 16px;
+        border-top: 1px solid var(--line);
+      }
+
+      .dialog-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .dialog-button {
+        min-height: 36px;
+        padding: 0 13px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--surface);
+        color: var(--text);
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 820;
+      }
+
+      .dialog-button--primary {
+        border-color: var(--text);
+        background: var(--text);
+        color: var(--page);
+      }
+
+      .dialog-button--danger {
+        border-color: transparent;
+        color: var(--danger);
+      }
+
+      .dialog-button:hover {
+        border-color: var(--line-strong);
+      }
+
+      .task-header-tools {
+        display: flex;
+        align-items: center;
+      }
+
+      .segmented {
+        display: inline-flex;
+        padding: 2px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--surface-soft);
+      }
+
+      .segment-button {
+        min-height: 27px;
+        padding: 0 9px;
+        border: 0;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .segment-button[aria-pressed="true"] {
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: 0 1px 4px rgba(24, 28, 33, 0.1);
+      }
+
+      .notes-textarea {
+        min-height: 132px;
+        padding: 12px 13px;
+        font-size: 13px;
+      }
+
+      .systems-section {
+        margin-top: 34px;
+      }
+
+      .section-head {
+        min-height: 58px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 13px;
+      }
+
+      .system-count {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 750;
+        white-space: nowrap;
+      }
+
+      .apps-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .app-card {
+        --app-accent: var(--blue);
+        min-width: 0;
+        min-height: 158px;
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--app-accent);
+        border-radius: var(--radius);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .app-card:hover {
+        border-right-color: var(--line-strong);
+        border-bottom-color: var(--line-strong);
+        border-left-color: var(--line-strong);
+      }
+
+      .app-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .app-mark {
+        width: 34px;
+        height: 34px;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        border-radius: 7px;
+        background: color-mix(in srgb, var(--app-accent) 14%, var(--surface));
+        color: var(--app-accent);
+        font-size: 11px;
+        font-weight: 900;
+      }
+
+      .health {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 850;
+      }
+
+      .health-dot {
+        width: 6px;
+        height: 6px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      .health[data-health="online"] {
+        color: var(--green);
+      }
+
+      .health[data-health="offline"] {
+        color: var(--danger);
+      }
+
+      .health[data-health="sso"] {
+        color: var(--violet);
+      }
+
+      .app-domain {
+        margin: 13px 0 3px;
+        color: var(--app-accent);
+        font-size: 9px;
+        font-weight: 850;
+      }
+
+      .app-name {
+        margin: 0;
+        overflow: hidden;
+        font-size: 14px;
+        line-height: 1.3;
+        font-weight: 820;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .app-actions {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: auto;
+        padding-top: 14px;
+      }
+
+      .open-app {
+        min-height: 32px;
+        flex: 1 1 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 0 9px;
+        border: 1px solid var(--app-accent);
+        border-radius: 6px;
+        background: var(--app-accent);
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 820;
+      }
+
+      .repo-link {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .open-app:hover {
+        filter: brightness(0.93);
+      }
+
+      .repo-link:hover {
+        border-color: var(--line-strong);
+        color: var(--text);
+      }
+
+      .footer {
+        border-top: 1px solid var(--line);
+      }
+
+      .footer-inner {
+        min-height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 650;
+      }
+
+      .save-state {
+        color: var(--text);
+        font-weight: 750;
+      }
+
+      @media (max-width: 1040px) {
+        .day-layout {
+          grid-template-columns: minmax(0, 1fr) 430px;
+          gap: 28px;
+        }
+
+        .summary-item {
+          padding: 0 15px;
+        }
+
+        .apps-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 860px) {
+        .day-layout {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+
+        .day-lead {
+          padding-bottom: 26px;
+        }
+
+        .day-summary {
+          min-height: 108px;
+          border-top: 1px solid var(--line-on-band);
+          border-left: 0;
+        }
+
+        .priority-panel,
+        .schedule-panel,
+        .week-panel,
+        .tasks-panel {
+          grid-column: 1 / -1;
+        }
+
+        .apps-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 600px) {
+        .wrap {
+          width: min(100% - 24px, 1180px);
+        }
+
+        .brand-subtitle {
+          display: none;
+        }
+
+        .header-actions {
+          gap: 5px;
+        }
+
+        .icon-control {
+          width: 34px;
+          height: 34px;
+        }
+
+        .day-lead {
+          padding-top: 25px;
+        }
+
+        h1 {
+          font-size: 27px;
+        }
+
+        .day-summary {
+          grid-template-columns: 0.8fr 0.8fr 1.4fr;
+        }
+
+        .summary-item {
+          min-height: 84px;
+          padding: 0 10px;
+        }
+
+        .summary-value {
+          font-size: 18px;
+        }
+
+        .summary-value--small {
+          font-size: 12px;
+        }
+
+        .summary-detail {
+          font-size: 9px;
+        }
+
+        .main-content {
+          padding-top: 20px;
+        }
+
+        .dashboard-grid {
+          gap: 12px;
+        }
+
+        .panel-header,
+        .panel-body {
+          padding-right: 14px;
+          padding-left: 14px;
+        }
+
+        .block-form {
+          grid-template-columns: 1fr 1fr 38px;
+        }
+
+        .block-form .compact-field--category {
+          grid-column: 1;
+          grid-row: 2;
+        }
+
+        .block-form .compact-field--text {
+          grid-column: 2 / -1;
+          grid-row: 2;
+        }
+
+        .block-form .add-button {
+          grid-column: 3;
+          grid-row: 1;
+        }
+
+        .task-form {
+          grid-template-columns: minmax(0, 1fr) 38px;
+        }
+
+        .task-form select {
+          grid-column: 1 / -1;
+          grid-row: 2;
+        }
+
+        .task-form .add-button {
+          grid-column: 2;
+          grid-row: 1;
+        }
+
+        .schedule-panel .panel-header {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .schedule-tools {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .timeline-scroll {
+          height: min(62vh, 540px);
+          scrollbar-gutter: auto;
+        }
+
+        .timeline-canvas {
+          height: 1248px;
+        }
+
+        .timeline-events {
+          left: 46px;
+        }
+
+        .timeline-half-hour {
+          left: 46px;
+        }
+
+        .timeline-hour-label {
+          left: 3px;
+          width: 36px;
+        }
+
+        .current-time-line {
+          left: 39px;
+        }
+
+        .time-block {
+          padding-right: 5px;
+          padding-left: 5px;
+        }
+
+        .task-row {
+          grid-template-columns: 18px 82px minmax(0, 1fr) 30px;
+        }
+
+        .task-header-tools {
+          width: 100%;
+        }
+
+        .tasks-panel .panel-header {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .apps-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .app-card {
+          min-height: 146px;
+        }
+
+        .block-dialog {
+          width: 100%;
+          max-width: none;
+          max-height: 88vh;
+          margin: auto 0 0;
+          border-right: 0;
+          border-bottom: 0;
+          border-left: 0;
+          border-radius: 8px 8px 0 0;
+        }
+
+        .dialog-body {
+          grid-template-columns: 1fr;
+        }
+
+        .dialog-field--wide {
+          grid-column: auto;
+        }
+
+        .footer-inner {
+          min-height: 84px;
+          align-items: flex-start;
+          flex-direction: column;
+          justify-content: center;
+          gap: 5px;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .brand-copy {
+          display: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="/" aria-label="研究生生活驾驶舱首页">
+          <span class="brand-mark" aria-hidden="true">研</span>
+          <span class="brand-copy">
+            <span class="brand-name">研究生生活驾驶舱</span>
+            <span class="brand-subtitle">Study · Life · Rhythm</span>
+          </span>
+        </a>
+
+        <div class="header-actions">
+          <button
+            class="icon-control"
+            id="exportButton"
+            type="button"
+            aria-label="导出生活驾驶舱备份"
+            title="导出备份"
+          >
+            <span aria-hidden="true">⇩</span>
+          </button>
+          <button
+            class="icon-control"
+            id="importButton"
+            type="button"
+            aria-label="导入生活驾驶舱备份"
+            title="导入备份"
+          >
+            <span aria-hidden="true">⇧</span>
+          </button>
+          <input
+            class="sr-only"
+            id="importFile"
+            type="file"
+            accept="application/json,.json"
+          />
+          <a
+            class="icon-control"
+            href="https://snappython.github.io/"
+            aria-label="返回个人主页"
+            title="返回个人主页"
+          >
+            <span aria-hidden="true">⌂</span>
+          </a>
+          <button
+            class="icon-control"
+            id="themeToggle"
+            type="button"
+            aria-label="切换深浅色模式"
+            title="切换深浅色模式"
+          >
+            <span id="themeIcon" aria-hidden="true">☾</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="day-band" aria-labelledby="pageTitle">
+      <div class="wrap day-layout">
+        <div class="day-lead">
+          <div class="date-toolbar">
+            <button
+              class="date-button"
+              id="previousDay"
+              type="button"
+              aria-label="前一天"
+              title="前一天"
+            >
+              <span aria-hidden="true">←</span>
+            </button>
+            <label class="sr-only" for="plannerDate">选择日期</label>
+            <input class="planner-date" id="plannerDate" type="date" />
+            <button
+              class="date-button"
+              id="nextDay"
+              type="button"
+              aria-label="后一天"
+              title="后一天"
+            >
+              <span aria-hidden="true">→</span>
+            </button>
+            <button class="today-button" id="todayButton" type="button">
+              今天
+            </button>
+          </div>
+
+          <p class="full-date" id="fullDate">今天</p>
+          <h1 id="pageTitle">研究生生活驾驶舱</h1>
+          <p class="day-prompt" id="dayPrompt">先完成最重要的一件事。</p>
+        </div>
+
+        <div class="day-summary" aria-label="当日概览">
+          <div class="summary-item">
+            <span class="summary-label">本地时间</span>
+            <time class="summary-value" id="clock">00:00</time>
+            <span class="summary-detail" id="greeting">你好</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">计划完成</span>
+            <span class="summary-value" id="completionValue">0 / 0</span>
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-fill" id="completionBar"></div>
+            </div>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">下一个时间块</span>
+            <span class="summary-value summary-value--small" id="nextBlockTitle">
+              暂无安排
+            </span>
+            <span class="summary-detail" id="nextBlockTime">留给自由推进</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="wrap main-content">
+      <div class="dashboard-grid">
+        <section class="panel priority-panel" aria-labelledby="priorityTitle">
+          <header class="panel-header">
+            <div class="panel-heading">
+              <p class="panel-kicker">DAILY FOCUS</p>
+              <h2 id="priorityTitle">今日三件事</h2>
+            </div>
+            <span class="panel-count" id="priorityCount">0 / 3</span>
+          </header>
+          <div class="panel-body">
+            <div class="priority-list" id="priorityList"></div>
+          </div>
+        </section>
+
+        <section class="panel week-panel" aria-labelledby="weekTitle">
+          <header class="panel-header">
+            <div class="panel-heading">
+              <p class="panel-kicker">RESEARCH</p>
+              <h2 id="weekTitle">本周研究推进</h2>
+            </div>
+            <span class="week-range" id="weekRange"></span>
+          </header>
+          <div class="panel-body week-fields">
+            <label class="field">
+              <span class="field-label">本周研究主线</span>
+              <textarea
+                class="week-textarea"
+                id="weekGoal"
+                maxlength="800"
+                placeholder="这一周最需要推进的研究问题"
+              ></textarea>
+            </label>
+            <label class="field">
+              <span class="field-label">下一里程碑</span>
+              <input
+                class="milestone-input"
+                id="weekMilestone"
+                type="text"
+                maxlength="240"
+                placeholder="下一份可以交付或验证的结果"
+              />
+            </label>
+            <label class="field">
+              <span class="field-label">推进程度</span>
+              <span class="range-line">
+                <input
+                  class="week-progress"
+                  id="weekProgress"
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="5"
+                  value="0"
+                />
+                <output class="range-value" id="weekProgressValue">0%</output>
+              </span>
+            </label>
+          </div>
+        </section>
+
+        <section class="panel schedule-panel" aria-labelledby="scheduleTitle">
+          <header class="panel-header">
+            <div class="panel-heading">
+              <p class="panel-kicker">TIME BLOCKS</p>
+              <h2 id="scheduleTitle">24 小时时间轴</h2>
+            </div>
+            <div class="schedule-tools">
+              <span class="panel-count" id="scheduleCount">0 个时间块</span>
+              <button
+                class="calendar-export"
+                id="googleCalendarButton"
+                type="button"
+                data-connected="false"
+                title="连接 Google 日历"
+              >
+                <span aria-hidden="true">G</span>
+                <span id="googleCalendarLabel">Google</span>
+              </button>
+              <button
+                class="calendar-export"
+                id="exportCalendarButton"
+                type="button"
+                title="导出当天日程"
+              >
+                <span aria-hidden="true">⇩</span>
+                日历
+              </button>
+            </div>
+          </header>
+          <div class="panel-body">
+            <form class="entry-form block-form" id="blockForm">
+              <label class="compact-field">
+                <span class="compact-label">开始</span>
+                <input id="blockStart" type="time" step="900" max="23:30" required />
+              </label>
+              <label class="compact-field">
+                <span class="compact-label">结束</span>
+                <input id="blockEnd" type="time" step="900" max="23:59" required />
+              </label>
+              <label class="compact-field compact-field--category">
+                <span class="compact-label">类别</span>
+                <select id="blockCategory">
+                  <option value="research">研究</option>
+                  <option value="course">课程</option>
+                  <option value="life">生活</option>
+                  <option value="health">健康</option>
+                </select>
+              </label>
+              <label class="compact-field compact-field--text">
+                <span class="compact-label">事项</span>
+                <input
+                  class="entry-text"
+                  id="blockText"
+                  type="text"
+                  maxlength="240"
+                  placeholder="添加一个时间块"
+                  autocomplete="off"
+                  required
+                />
+              </label>
+              <button class="add-button" type="submit" aria-label="添加时间块" title="添加">
+                <span aria-hidden="true">＋</span>
+              </button>
+            </form>
+            <div class="timeline-legend" aria-label="时间块类别">
+              <span class="legend-item" data-category="research">
+                <span class="legend-swatch" aria-hidden="true"></span>研究
+              </span>
+              <span class="legend-item" data-category="course">
+                <span class="legend-swatch" aria-hidden="true"></span>课程
+              </span>
+              <span class="legend-item" data-category="life">
+                <span class="legend-swatch" aria-hidden="true"></span>生活
+              </span>
+              <span class="legend-item" data-category="health">
+                <span class="legend-swatch" aria-hidden="true"></span>健康
+              </span>
+            </div>
+            <div
+              class="timeline-scroll"
+              id="timelineScroll"
+              tabindex="0"
+              aria-label="当天 24 小时时间轴"
+            >
+              <div class="timeline-canvas" id="timelineCanvas">
+                <div class="timeline-grid" id="timelineGrid" aria-hidden="true"></div>
+                <div class="timeline-events" id="timelineEvents"></div>
+                <div class="current-time-line" id="currentTimeLine" hidden>
+                  <span class="current-time-label" id="currentTimeLabel"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel tasks-panel" aria-labelledby="tasksTitle">
+          <header class="panel-header">
+            <div class="panel-heading">
+              <p class="panel-kicker">TASK POOL</p>
+              <h2 id="tasksTitle">待办池</h2>
+            </div>
+            <div class="task-header-tools">
+              <div class="segmented" aria-label="筛选待办">
+                <button
+                  class="segment-button"
+                  type="button"
+                  data-task-filter="open"
+                  aria-pressed="true"
+                >
+                  待办
+                </button>
+                <button
+                  class="segment-button"
+                  type="button"
+                  data-task-filter="all"
+                  aria-pressed="false"
+                >
+                  全部
+                </button>
+                <button
+                  class="segment-button"
+                  type="button"
+                  data-task-filter="done"
+                  aria-pressed="false"
+                >
+                  完成
+                </button>
+              </div>
+            </div>
+          </header>
+          <div class="panel-body">
+            <form class="entry-form task-form" id="taskForm">
+              <label class="sr-only" for="taskText">待办内容</label>
+              <input
+                id="taskText"
+                type="text"
+                maxlength="240"
+                placeholder="记下一个待办"
+                autocomplete="off"
+                required
+              />
+              <label class="sr-only" for="taskCategory">类别</label>
+              <select id="taskCategory">
+                <option value="research">研究</option>
+                <option value="course">课程</option>
+                <option value="life" selected>生活</option>
+                <option value="health">健康</option>
+              </select>
+              <button class="add-button" type="submit" aria-label="添加待办" title="添加">
+                <span aria-hidden="true">＋</span>
+              </button>
+            </form>
+            <div class="list" id="taskList"></div>
+          </div>
+        </section>
+
+        <section class="panel notes-panel" aria-labelledby="notesTitle">
+          <header class="panel-header">
+            <div class="panel-heading">
+              <p class="panel-kicker">QUICK NOTES</p>
+              <h2 id="notesTitle">随手记</h2>
+            </div>
+            <span class="panel-count" id="notesCount">0 字</span>
+          </header>
+          <div class="panel-body">
+            <label class="sr-only" for="dailyNotes">当天的随手记录</label>
+            <textarea
+              class="notes-textarea"
+              id="dailyNotes"
+              maxlength="10000"
+              placeholder="想法、阅读线索、会议结论，或今天值得记住的事"
+            ></textarea>
+          </div>
+        </section>
+      </div>
+
+      <section class="systems-section" aria-labelledby="systemsTitle">
+        <header class="section-head">
+          <div>
+            <p class="section-kicker">MY SYSTEMS</p>
+            <h2 id="systemsTitle">应用入口</h2>
+          </div>
+          <span class="system-count" id="systemCount">5 个入口</span>
+        </header>
+        <div class="apps-grid" id="appGrid"></div>
+      </section>
+    </main>
+
+    <dialog class="block-dialog" id="blockDialog" aria-labelledby="blockDialogTitle">
+      <form class="dialog-form" id="blockEditForm">
+        <header class="dialog-header">
+          <h2 class="dialog-title" id="blockDialogTitle">编辑时间块</h2>
+          <button
+            class="small-icon-button"
+            id="closeBlockDialog"
+            type="button"
+            aria-label="关闭"
+            title="关闭"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </header>
+        <div class="dialog-body">
+          <label class="dialog-field dialog-field--wide">
+            <span class="field-label">事项</span>
+            <input id="editBlockText" type="text" maxlength="240" required />
+          </label>
+          <label class="dialog-field">
+            <span class="field-label">开始</span>
+            <input
+              id="editBlockStart"
+              type="time"
+              step="900"
+              max="23:30"
+              required
+            />
+          </label>
+          <label class="dialog-field">
+            <span class="field-label">结束</span>
+            <input
+              id="editBlockEnd"
+              type="time"
+              step="900"
+              max="23:59"
+              required
+            />
+          </label>
+          <label class="dialog-field">
+            <span class="field-label">类别</span>
+            <select id="editBlockCategory">
+              <option value="research">研究</option>
+              <option value="course">课程</option>
+              <option value="life">生活</option>
+              <option value="health">健康</option>
+            </select>
+          </label>
+          <label class="done-control">
+            <input id="editBlockDone" type="checkbox" />
+            已完成
+          </label>
+        </div>
+        <footer class="dialog-footer">
+          <button
+            class="dialog-button dialog-button--danger"
+            id="deleteBlockButton"
+            type="button"
+          >
+            删除
+          </button>
+          <div class="dialog-actions">
+            <button class="dialog-button" id="cancelBlockEdit" type="button">
+              取消
+            </button>
+            <button class="dialog-button dialog-button--primary" type="submit">
+              保存
+            </button>
+          </div>
+        </footer>
+      </form>
+    </dialog>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <span>
+          数据保存在当前设备 ·
+          <span class="save-state" id="saveState">已就绪</span>
+        </span>
+        <span>SnapPython · <span id="currentYear">2026</span></span>
+      </div>
+    </footer>
+
+    <script>
+      const STORAGE_KEY = "graduate-life-cockpit-v1";
+      const SYNC_QUEUE_KEY = "graduate-life-cockpit-sync-queue-v1";
+      const STATE_VERSION = 1;
+      const CATEGORY_LABELS = {
+        research: "研究",
+        course: "课程",
+        life: "生活",
+        health: "健康",
+      };
+
+      const APPS = [
+        {
+          id: "rebirth",
+          name: "Re_Birth",
+          domain: "身体",
+          mark: "RB",
+          url: "https://rebirth.72-11-130-223.sslip.io:8444/",
+          repoUrl: "https://github.com/SnapPython/re_birth",
+          accent: "#cf654d",
+          access: "sso",
+        },
+        {
+          id: "voice-daily",
+          name: "Voice Daily",
+          domain: "记录",
+          mark: "VD",
+          url: "https://snappython.github.io/voice-daily/",
+          repoUrl: "https://github.com/SnapPython/voice-daily",
+          accent: "#178060",
+          access: "public",
+        },
+        {
+          id: "transfer-assistant",
+          name: "Transfer Assistant",
+          domain: "流转",
+          mark: "TA",
+          url: "https://transfer.72-11-130-223.sslip.io:8444/",
+          repoUrl: "https://github.com/SnapPython/transfer-assistant",
+          accent: "#2d67b2",
+          access: "sso",
+        },
+        {
+          id: "mechmind",
+          name: "MechMind",
+          domain: "知识",
+          mark: "MM",
+          url: "https://mechmind.72-11-130-223.sslip.io:8444/",
+          repoUrl: "https://github.com/SnapPython/my_database",
+          accent: "#7658a6",
+          access: "sso",
+        },
+        {
+          id: "homepage",
+          name: "SnapPython 主页",
+          domain: "空间",
+          mark: "SP",
+          url: "https://snappython.github.io/",
+          repoUrl: "https://github.com/SnapPython/snappython.github.io",
+          accent: "#9a6a13",
+          access: "public",
+        },
+      ];
+
+      const priorityPlaceholders = [
+        "最重要的研究推进",
+        "课程、项目或协作任务",
+        "照顾自己的安排",
+      ];
+
+      const elements = {
+        appGrid: document.querySelector("#appGrid"),
+        blockCategory: document.querySelector("#blockCategory"),
+        blockDialog: document.querySelector("#blockDialog"),
+        blockEditForm: document.querySelector("#blockEditForm"),
+        blockEnd: document.querySelector("#blockEnd"),
+        blockForm: document.querySelector("#blockForm"),
+        blockStart: document.querySelector("#blockStart"),
+        blockText: document.querySelector("#blockText"),
+        cancelBlockEdit: document.querySelector("#cancelBlockEdit"),
+        clock: document.querySelector("#clock"),
+        closeBlockDialog: document.querySelector("#closeBlockDialog"),
+        completionBar: document.querySelector("#completionBar"),
+        completionValue: document.querySelector("#completionValue"),
+        currentTimeLabel: document.querySelector("#currentTimeLabel"),
+        currentTimeLine: document.querySelector("#currentTimeLine"),
+        currentYear: document.querySelector("#currentYear"),
+        dailyNotes: document.querySelector("#dailyNotes"),
+        dayPrompt: document.querySelector("#dayPrompt"),
+        deleteBlockButton: document.querySelector("#deleteBlockButton"),
+        editBlockCategory: document.querySelector("#editBlockCategory"),
+        editBlockDone: document.querySelector("#editBlockDone"),
+        editBlockEnd: document.querySelector("#editBlockEnd"),
+        editBlockStart: document.querySelector("#editBlockStart"),
+        editBlockText: document.querySelector("#editBlockText"),
+        exportButton: document.querySelector("#exportButton"),
+        exportCalendarButton: document.querySelector("#exportCalendarButton"),
+        fullDate: document.querySelector("#fullDate"),
+        googleCalendarButton: document.querySelector("#googleCalendarButton"),
+        googleCalendarLabel: document.querySelector("#googleCalendarLabel"),
+        greeting: document.querySelector("#greeting"),
+        importButton: document.querySelector("#importButton"),
+        importFile: document.querySelector("#importFile"),
+        nextBlockTime: document.querySelector("#nextBlockTime"),
+        nextBlockTitle: document.querySelector("#nextBlockTitle"),
+        nextDay: document.querySelector("#nextDay"),
+        notesCount: document.querySelector("#notesCount"),
+        plannerDate: document.querySelector("#plannerDate"),
+        previousDay: document.querySelector("#previousDay"),
+        priorityCount: document.querySelector("#priorityCount"),
+        priorityList: document.querySelector("#priorityList"),
+        saveState: document.querySelector("#saveState"),
+        scheduleCount: document.querySelector("#scheduleCount"),
+        taskCategory: document.querySelector("#taskCategory"),
+        taskForm: document.querySelector("#taskForm"),
+        taskList: document.querySelector("#taskList"),
+        taskText: document.querySelector("#taskText"),
+        themeIcon: document.querySelector("#themeIcon"),
+        themeToggle: document.querySelector("#themeToggle"),
+        timelineCanvas: document.querySelector("#timelineCanvas"),
+        timelineEvents: document.querySelector("#timelineEvents"),
+        timelineGrid: document.querySelector("#timelineGrid"),
+        timelineScroll: document.querySelector("#timelineScroll"),
+        todayButton: document.querySelector("#todayButton"),
+        weekGoal: document.querySelector("#weekGoal"),
+        weekMilestone: document.querySelector("#weekMilestone"),
+        weekProgress: document.querySelector("#weekProgress"),
+        weekProgressValue: document.querySelector("#weekProgressValue"),
+        weekRange: document.querySelector("#weekRange"),
+      };
+
+      let selectedDateKey = toDateKey(new Date());
+      let taskFilter = "open";
+      let editingBlockId = null;
+      let migratedFromGithub = false;
+      let state = loadState();
+      let syncQueue = loadSyncQueue();
+      let syncInProgress = false;
+      let serverOnline = false;
+      let serverRevision = 0;
+      let remoteRefreshTimer = null;
+      let eventSource = null;
+      let googleState = {
+        configured: false,
+        connected: false,
+        error: null,
+      };
+      const mutationTimers = new Map();
+
+      function createId() {
+        if (globalThis.crypto && typeof globalThis.crypto.randomUUID === "function") {
+          return globalThis.crypto.randomUUID();
+        }
+        return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      }
+
+      function cleanText(value, limit) {
+        return String(value ?? "").slice(0, limit);
+      }
+
+      function validCategory(value) {
+        return Object.hasOwn(CATEGORY_LABELS, value) ? value : "life";
+      }
+
+      function timeToMinutes(value) {
+        if (!/^\d{2}:\d{2}$/.test(value || "")) return 0;
+        const [hour, minute] = value.split(":").map(Number);
+        return Math.min(1439, Math.max(0, hour * 60 + minute));
+      }
+
+      function minutesToTime(value) {
+        const minutes = Math.min(1439, Math.max(0, Math.round(value)));
+        const hour = Math.floor(minutes / 60);
+        const minute = minutes % 60;
+        return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+      }
+
+      function normalizeBlockRange(startValue, endValue) {
+        const fallbackStart = /^\d{2}:\d{2}$/.test(startValue || "")
+          ? startValue
+          : "09:00";
+        const startMinutes = Math.min(1410, timeToMinutes(fallbackStart));
+        const requestedEnd = /^\d{2}:\d{2}$/.test(endValue || "")
+          ? timeToMinutes(endValue)
+          : startMinutes + 60;
+        const endMinutes = Math.min(
+          1439,
+          Math.max(startMinutes + 30, requestedEnd),
+        );
+        return {
+          start: minutesToTime(startMinutes),
+          end: minutesToTime(endMinutes),
+        };
+      }
+
+      function readBlockRange(startInput, endInput) {
+        const startMinutes = timeToMinutes(startInput.value);
+        const endMinutes = timeToMinutes(endInput.value);
+        const minimumDuration = startMinutes === 1410 ? 29 : 30;
+        if (endMinutes - startMinutes < minimumDuration) {
+          endInput.setCustomValidity("结束时间需要晚于开始时间至少 30 分钟");
+          endInput.reportValidity();
+          return null;
+        }
+        endInput.setCustomValidity("");
+        return {
+          start: minutesToTime(startMinutes),
+          end: minutesToTime(endMinutes),
+        };
+      }
+
+      function keepEndAfterStart(startInput, endInput) {
+        const startMinutes = timeToMinutes(startInput.value);
+        const endMinutes = timeToMinutes(endInput.value);
+        const minimumEnd = Math.min(1439, startMinutes + 30);
+        if (endMinutes <= startMinutes || endMinutes - startMinutes < 30) {
+          endInput.value = minutesToTime(minimumEnd);
+        }
+        endInput.setCustomValidity("");
+      }
+
+      function makeDay() {
+        return {
+          priorities: Array.from({ length: 3 }, () => ({
+            text: "",
+            done: false,
+          })),
+          blocks: [],
+          tasks: [],
+          notes: "",
+        };
+      }
+
+      function normalizeDay(rawDay) {
+        const source = rawDay && typeof rawDay === "object" ? rawDay : {};
+        const rawPriorities = Array.isArray(source.priorities)
+          ? source.priorities
+          : [];
+        const priorities = Array.from({ length: 3 }, (_, index) => {
+          const item = rawPriorities[index] || {};
+          return {
+            text: cleanText(item.text, 240),
+            done: Boolean(item.done),
+          };
+        });
+        const blocks = Array.isArray(source.blocks)
+          ? source.blocks.slice(0, 200).map((item) => {
+              const range = normalizeBlockRange(
+                item.start || item.time,
+                item.end,
+              );
+              return {
+                id: cleanText(item.id || createId(), 120),
+                start: range.start,
+                end: range.end,
+                category: validCategory(item.category),
+                text: cleanText(item.text, 240),
+                done: Boolean(item.done),
+                source: item.source === "google" ? "google" : "cockpit",
+                googleEventId: cleanText(item.googleEventId, 240) || null,
+                syncState: cleanText(item.syncState, 40) || "synced",
+              };
+            }).filter((item) => item.text.trim())
+          : [];
+        const tasks = Array.isArray(source.tasks)
+          ? source.tasks.slice(0, 300).map((item) => ({
+              id: cleanText(item.id || createId(), 120),
+              category: validCategory(item.category),
+              text: cleanText(item.text, 240),
+              done: Boolean(item.done),
+            })).filter((item) => item.text.trim())
+          : [];
+
+        return {
+          priorities,
+          blocks,
+          tasks,
+          notes: cleanText(source.notes, 10000),
+        };
+      }
+
+      function normalizeWeek(rawWeek) {
+        const source = rawWeek && typeof rawWeek === "object" ? rawWeek : {};
+        return {
+          goal: cleanText(source.goal, 800),
+          milestone: cleanText(source.milestone, 240),
+          progress: Math.min(100, Math.max(0, Number(source.progress) || 0)),
+        };
+      }
+
+      function normalizeState(rawState) {
+        const normalized = {
+          version: STATE_VERSION,
+          days: {},
+          weeks: {},
+        };
+
+        if (!rawState || typeof rawState !== "object") return normalized;
+
+        if (rawState.days && typeof rawState.days === "object") {
+          Object.entries(rawState.days).forEach(([key, value]) => {
+            if (/^\d{4}-\d{2}-\d{2}$/.test(key)) {
+              normalized.days[key] = normalizeDay(value);
+            }
+          });
+        }
+
+        if (rawState.weeks && typeof rawState.weeks === "object") {
+          Object.entries(rawState.weeks).forEach(([key, value]) => {
+            if (/^\d{4}-W\d{2}$/.test(key)) {
+              normalized.weeks[key] = normalizeWeek(value);
+            }
+          });
+        }
+
+        return normalized;
+      }
+
+      function readMigratedState() {
+        const prefix = "#migrate=";
+        if (!window.location.hash.startsWith(prefix)) return null;
+        try {
+          const encoded = window.location.hash.slice(prefix.length);
+          const base64 = encoded.replace(/-/g, "+").replace(/_/g, "/");
+          const padded = base64 + "=".repeat((4 - (base64.length % 4)) % 4);
+          const binary = window.atob(padded);
+          const bytes = Uint8Array.from(
+            binary,
+            (character) => character.charCodeAt(0),
+          );
+          const parsed = JSON.parse(new TextDecoder().decode(bytes));
+          migratedFromGithub = true;
+          return normalizeState(parsed);
+        } catch {
+          return null;
+        } finally {
+          window.history.replaceState(
+            {},
+            "",
+            `${window.location.pathname}${window.location.search}`,
+          );
+        }
+      }
+
+      function loadState() {
+        try {
+          const migrated = readMigratedState();
+          if (migrated) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+            return migrated;
+          }
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? normalizeState(JSON.parse(raw)) : normalizeState({});
+        } catch {
+          return normalizeState({});
+        }
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          if (!serverOnline) {
+            elements.saveState.textContent = "已保存在本机，等待连接 VPS";
+          } else if (syncQueue.length) {
+            elements.saveState.textContent = `等待同步 ${syncQueue.length} 项`;
+          }
+        } catch {
+          elements.saveState.textContent = "保存失败，请导出备份";
+        }
+      }
+
+      function loadSyncQueue() {
+        try {
+          const parsed = JSON.parse(
+            localStorage.getItem(SYNC_QUEUE_KEY) || "[]",
+          );
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function persistSyncQueue() {
+        try {
+          localStorage.setItem(SYNC_QUEUE_KEY, JSON.stringify(syncQueue));
+        } catch {
+          elements.saveState.textContent = "同步队列无法保存";
+        }
+      }
+
+      function setSyncStatus(message) {
+        elements.saveState.textContent = message;
+      }
+
+      async function apiRequest(path, options = {}) {
+        const response = await fetch(path, {
+          method: options.method || "GET",
+          headers: {
+            Accept: "application/json",
+            ...(options.body ? { "Content-Type": "application/json" } : {}),
+          },
+          body: options.body ? JSON.stringify(options.body) : undefined,
+          cache: "no-store",
+          credentials: "same-origin",
+        });
+        let payload = {};
+        try {
+          payload = await response.json();
+        } catch {
+          payload = {};
+        }
+        if (!response.ok) {
+          const error = new Error(payload.detail || `请求失败：${response.status}`);
+          error.status = response.status;
+          throw error;
+        }
+        return payload;
+      }
+
+      function enqueueMutation(key, method, path, body) {
+        const operation = {
+          operationId: createId(),
+          key,
+          method,
+          path,
+          body,
+          createdAt: new Date().toISOString(),
+        };
+        syncQueue = syncQueue.filter((item) => item.key !== key);
+        syncQueue.push(operation);
+        persistSyncQueue();
+        setSyncStatus(`等待同步 ${syncQueue.length} 项`);
+        void flushSyncQueue();
+      }
+
+      function scheduleMutation(key, method, path, body, delay = 550) {
+        window.clearTimeout(mutationTimers.get(key));
+        mutationTimers.set(
+          key,
+          window.setTimeout(() => {
+            mutationTimers.delete(key);
+            enqueueMutation(key, method, path, body);
+          }, delay),
+        );
+      }
+
+      async function flushSyncQueue() {
+        if (syncInProgress || !syncQueue.length) return;
+        syncInProgress = true;
+        setSyncStatus(`正在同步 ${syncQueue.length} 项`);
+        try {
+          while (syncQueue.length) {
+            const operation = syncQueue[0];
+            try {
+              const result = await apiRequest(operation.path, {
+                method: operation.method,
+                body: operation.body,
+              });
+              serverOnline = true;
+              serverRevision = Math.max(
+                serverRevision,
+                Number(result.revision) || 0,
+              );
+              syncQueue = syncQueue.filter(
+                (item) => item.operationId !== operation.operationId,
+              );
+              persistSyncQueue();
+            } catch (error) {
+              if (
+                operation.method === "DELETE" &&
+                Number(error.status) === 404
+              ) {
+                syncQueue = syncQueue.filter(
+                  (item) => item.operationId !== operation.operationId,
+                );
+                persistSyncQueue();
+                continue;
+              }
+              if (Number(error.status) === 401) {
+                setSyncStatus("登录状态已失效，请重新加载");
+              } else {
+                setSyncStatus(`VPS 暂不可用 · ${syncQueue.length} 项待同步`);
+              }
+              serverOnline = false;
+              return;
+            }
+          }
+          setSyncStatus("VPS 已同步");
+        } finally {
+          syncInProgress = false;
+        }
+      }
+
+      function hasMeaningfulLocalData() {
+        return (
+          Object.values(state.days).some(
+            (day) =>
+              day.notes ||
+              day.blocks.length ||
+              day.tasks.length ||
+              day.priorities.some((item) => item.text),
+          ) ||
+          Object.values(state.weeks).some(
+            (week) => week.goal || week.milestone || week.progress,
+          )
+        );
+      }
+
+      function applyServerDay(payload) {
+        state.days[payload.date] = {
+          priorities: payload.priorities.slice(0, 3).map((item) => ({
+            text: item.text || "",
+            done: Boolean(item.done),
+          })),
+          blocks: payload.blocks.map((item) => ({
+            id: item.id,
+            start: item.start,
+            end: item.end,
+            category: validCategory(item.category),
+            text: item.text,
+            done: Boolean(item.done),
+            source: item.source || "cockpit",
+            googleEventId: item.googleEventId || null,
+            syncState: item.syncState || "synced",
+          })),
+          tasks: payload.tasks.map((item) => ({
+            id: item.id,
+            category: validCategory(item.category),
+            text: item.text,
+            done: Boolean(item.done),
+          })),
+          notes: payload.notes.text || "",
+        };
+        state.weeks[payload.week.key] = {
+          goal: payload.week.goal || "",
+          milestone: payload.week.milestone || "",
+          progress: Number(payload.week.progress) || 0,
+        };
+        serverRevision = Math.max(serverRevision, Number(payload.revision) || 0);
+        googleState = {
+          ...googleState,
+          ...(payload.google || {}),
+        };
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch {
+          // Server data remains authoritative if the local cache is unavailable.
+        }
+        updateGoogleButton();
+      }
+
+      async function loadDayFromServer(day, shouldRender = true) {
+        try {
+          const payload = await apiRequest(`/api/days/${day}`);
+          serverOnline = true;
+          applyServerDay(payload);
+          if (shouldRender && selectedDateKey === day) {
+            renderSelectedDay();
+          }
+          if (!syncQueue.length) setSyncStatus("VPS 已同步");
+          return true;
+        } catch (error) {
+          serverOnline = false;
+          setSyncStatus("离线模式 · 数据保存在本机");
+          return false;
+        }
+      }
+
+      function updateGoogleButton() {
+        const button = elements.googleCalendarButton;
+        button.dataset.connected = String(Boolean(googleState.connected));
+        button.dataset.state = googleState.error ? "error" : "ready";
+        if (!googleState.configured) {
+          elements.googleCalendarLabel.textContent = "待配置";
+          button.title = "Google Calendar OAuth 尚未配置";
+        } else if (googleState.connected) {
+          elements.googleCalendarLabel.textContent = "已连接";
+          button.title = "立即同步 Google 日历";
+        } else {
+          elements.googleCalendarLabel.textContent = "连接";
+          button.title = "连接 Google 日历";
+        }
+      }
+
+      function requestRemoteRefresh(revision) {
+        if (revision <= serverRevision) return;
+        window.clearTimeout(remoteRefreshTimer);
+        remoteRefreshTimer = window.setTimeout(async () => {
+          if (revision <= serverRevision) return;
+          const activeElement = document.activeElement;
+          const isEditing =
+            elements.blockDialog.open ||
+            (activeElement &&
+              activeElement.matches("input, textarea, select"));
+          if (syncQueue.length || syncInProgress || isEditing) {
+            requestRemoteRefresh(revision);
+            return;
+          }
+          await loadDayFromServer(selectedDateKey);
+        }, 700);
+      }
+
+      function connectEventStream() {
+        if (eventSource) eventSource.close();
+        eventSource = new EventSource("/api/events");
+        eventSource.addEventListener("open", () => {
+          serverOnline = true;
+          if (!syncQueue.length) setSyncStatus("VPS 已连接");
+          void flushSyncQueue();
+        });
+        eventSource.addEventListener("revision", (event) => {
+          try {
+            const payload = JSON.parse(event.data);
+            requestRemoteRefresh(Number(payload.revision) || 0);
+          } catch {
+            // Ignore malformed event notifications.
+          }
+        });
+        eventSource.addEventListener("error", () => {
+          serverOnline = false;
+          setSyncStatus("连接中断，正在重试");
+        });
+      }
+
+      async function initializeServerSync() {
+        try {
+          const status = await apiRequest("/api/status");
+          serverOnline = true;
+          serverRevision = Number(status.revision) || 0;
+          googleState = status.google || googleState;
+          if (status.hasData && migratedFromGithub) {
+            state = normalizeState({});
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          }
+          if (!status.hasData && hasMeaningfulLocalData()) {
+            setSyncStatus("正在迁移本机数据");
+            const imported = await apiRequest("/api/import-local", {
+              method: "POST",
+              body: { state },
+            });
+            serverRevision = Number(imported.revision) || serverRevision;
+          }
+          if (syncQueue.length) {
+            await flushSyncQueue();
+          }
+          await loadDayFromServer(selectedDateKey);
+          connectEventStream();
+        } catch {
+          serverOnline = false;
+          setSyncStatus("离线模式 · 数据保存在本机");
+          updateGoogleButton();
+        }
+
+        const url = new URL(window.location.href);
+        if (url.searchParams.get("google") === "connected") {
+          setSyncStatus("Google 日历已连接");
+          url.searchParams.delete("google");
+          window.history.replaceState({}, "", url);
+        } else if (url.searchParams.get("google") === "error") {
+          setSyncStatus(
+            `Google 连接失败：${url.searchParams.get("message") || "未知错误"}`,
+          );
+          url.searchParams.delete("google");
+          url.searchParams.delete("message");
+          window.history.replaceState({}, "", url);
+        }
+      }
+
+      function ensureDay() {
+        if (!state.days[selectedDateKey]) {
+          state.days[selectedDateKey] = makeDay();
+        }
+        return state.days[selectedDateKey];
+      }
+
+      function ensureWeek() {
+        const key = getWeekKey(fromDateKey(selectedDateKey));
+        if (!state.weeks[key]) {
+          state.weeks[key] = normalizeWeek({});
+        }
+        return state.weeks[key];
+      }
+
+      function toDateKey(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
+      function fromDateKey(key) {
+        const [year, month, day] = key.split("-").map(Number);
+        return new Date(year, month - 1, day, 12);
+      }
+
+      function shiftDate(key, amount) {
+        const date = fromDateKey(key);
+        date.setDate(date.getDate() + amount);
+        return toDateKey(date);
+      }
+
+      function getWeekKey(date) {
+        const utcDate = new Date(
+          Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+        );
+        const day = utcDate.getUTCDay() || 7;
+        utcDate.setUTCDate(utcDate.getUTCDate() + 4 - day);
+        const yearStart = new Date(Date.UTC(utcDate.getUTCFullYear(), 0, 1));
+        const week = Math.ceil(((utcDate - yearStart) / 86400000 + 1) / 7);
+        return `${utcDate.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
+      }
+
+      function getWeekRange(date) {
+        const monday = new Date(date);
+        const day = monday.getDay() || 7;
+        monday.setDate(monday.getDate() - day + 1);
+        const sunday = new Date(monday);
+        sunday.setDate(sunday.getDate() + 6);
+        const format = new Intl.DateTimeFormat("zh-CN", {
+          month: "numeric",
+          day: "numeric",
+        });
+        return `${format.format(monday)} - ${format.format(sunday)}`;
+      }
+
+      function escapeHTML(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function categoryOptions(selected) {
+        return Object.entries(CATEGORY_LABELS)
+          .map(
+            ([value, label]) =>
+              `<option value="${value}" ${value === selected ? "selected" : ""}>${label}</option>`,
+          )
+          .join("");
+      }
+
+      function renderDateContext() {
+        const date = fromDateKey(selectedDateKey);
+        const todayKey = toDateKey(new Date());
+        const difference = Math.round((date - fromDateKey(todayKey)) / 86400000);
+        const relation =
+          difference === 0
+            ? "今天"
+            : difference === 1
+              ? "明天"
+              : difference === -1
+                ? "昨天"
+                : difference > 1
+                  ? "未来计划"
+                  : "往日回顾";
+
+        elements.plannerDate.value = selectedDateKey;
+        elements.fullDate.textContent = `${relation} · ${new Intl.DateTimeFormat(
+          "zh-CN",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            weekday: "long",
+          },
+        ).format(date)}`;
+
+        if (difference === 0) {
+          elements.dayPrompt.textContent = "先完成最重要的一件事。";
+        } else if (difference === 1) {
+          elements.dayPrompt.textContent = "为明天留出清晰的开始。";
+        } else if (difference > 1) {
+          elements.dayPrompt.textContent = "提前安排，把精力留给重要的事。";
+        } else {
+          elements.dayPrompt.textContent = "回看这一天的推进与节奏。";
+        }
+      }
+
+      function renderPriorities() {
+        const day = ensureDay();
+        elements.priorityList.innerHTML = day.priorities
+          .map(
+            (item, index) => `
+              <label class="priority-row">
+                <input
+                  class="priority-check"
+                  type="checkbox"
+                  data-priority-index="${index}"
+                  ${item.done ? "checked" : ""}
+                  aria-label="完成第 ${index + 1} 件事"
+                />
+                <span class="priority-index">${String(index + 1).padStart(2, "0")}</span>
+                <input
+                  class="priority-input"
+                  type="text"
+                  data-priority-index="${index}"
+                  maxlength="240"
+                  value="${escapeHTML(item.text)}"
+                  placeholder="${priorityPlaceholders[index]}"
+                  aria-label="第 ${index + 1} 件重要事项"
+                />
+              </label>
+            `,
+          )
+          .join("");
+      }
+
+      function renderWeek() {
+        const date = fromDateKey(selectedDateKey);
+        const week = ensureWeek();
+        elements.weekRange.textContent = getWeekRange(date);
+        elements.weekGoal.value = week.goal;
+        elements.weekMilestone.value = week.milestone;
+        elements.weekProgress.value = week.progress;
+        elements.weekProgressValue.value = `${week.progress}%`;
+        elements.weekProgressValue.textContent = `${week.progress}%`;
+      }
+
+      function renderTimelineGrid() {
+        elements.timelineGrid.innerHTML = Array.from({ length: 24 }, (_, hour) => {
+          const hourTop = (hour / 24) * 100;
+          const halfHourTop = ((hour + 0.5) / 24) * 100;
+          return `
+            <div class="timeline-hour" style="top: ${hourTop}%">
+              <span class="timeline-hour-label">${String(hour).padStart(2, "0")}:00</span>
+            </div>
+            <div class="timeline-half-hour" style="top: ${halfHourTop}%"></div>
+          `;
+        }).join("");
+      }
+
+      function layoutTimelineBlocks(blocks) {
+        const entries = blocks
+          .map((item) => ({
+            item,
+            startMinutes: timeToMinutes(item.start),
+            endMinutes: timeToMinutes(item.end),
+          }))
+          .sort(
+            (a, b) =>
+              a.startMinutes - b.startMinutes ||
+              a.endMinutes - b.endMinutes,
+          );
+        const groups = [];
+        let currentGroup = [];
+        let groupEnd = -1;
+
+        entries.forEach((entry) => {
+          if (currentGroup.length && entry.startMinutes >= groupEnd) {
+            groups.push(currentGroup);
+            currentGroup = [];
+            groupEnd = -1;
+          }
+          currentGroup.push(entry);
+          groupEnd = Math.max(groupEnd, entry.endMinutes);
+        });
+        if (currentGroup.length) groups.push(currentGroup);
+
+        return groups.flatMap((group) => {
+          const laneEnds = [];
+          group.forEach((entry) => {
+            let lane = laneEnds.findIndex((end) => end <= entry.startMinutes);
+            if (lane === -1) lane = laneEnds.length;
+            laneEnds[lane] = entry.endMinutes;
+            entry.lane = lane;
+          });
+          const laneCount = Math.max(1, laneEnds.length);
+          return group.map((entry) => ({ ...entry, laneCount }));
+        });
+      }
+
+      function renderBlocks() {
+        const day = ensureDay();
+        const blocks = [...day.blocks].sort((a, b) =>
+          a.start.localeCompare(b.start),
+        );
+        const positionedBlocks = layoutTimelineBlocks(blocks);
+        elements.scheduleCount.textContent = `${blocks.length} 个时间块`;
+
+        if (!positionedBlocks.length) {
+          elements.timelineEvents.innerHTML =
+            '<div class="timeline-empty">这一天还没有时间块</div>';
+          updateCurrentTimeLine();
+          return;
+        }
+
+        elements.timelineEvents.innerHTML = positionedBlocks
+          .map(({ item, startMinutes, endMinutes, lane, laneCount }) => {
+            const top = (startMinutes / 1440) * 100;
+            const height = ((endMinutes - startMinutes) / 1440) * 100;
+            const laneWidth = 100 / laneCount;
+            const left = lane * laneWidth;
+            const duration = endMinutes - startMinutes;
+            const sourceLabel =
+              item.googleEventId || item.source === "google"
+                ? " · G"
+                : item.syncState === "pending_upsert"
+                  ? " · 待同步"
+                  : "";
+            return `
+              <button
+                class="time-block"
+                type="button"
+                data-item-id="${escapeHTML(item.id)}"
+                data-category="${item.category}"
+                data-done="${item.done}"
+                data-compact="${duration < 45}"
+                data-sync-state="${item.syncState || "synced"}"
+                style="
+                  top: ${top}%;
+                  height: ${height}%;
+                  left: calc(${left}% + 3px);
+                  width: calc(${laneWidth}% - 6px);
+                "
+                aria-label="${escapeHTML(
+                  `${item.start} 至 ${item.end}，${item.text}，${
+                    CATEGORY_LABELS[item.category]
+                  }`,
+                )}"
+              >
+                <span class="time-block-title">${escapeHTML(item.text)}</span>
+                <span class="time-block-meta">
+                  ${item.start} - ${item.end} · ${CATEGORY_LABELS[item.category]}${sourceLabel}
+                </span>
+              </button>
+            `;
+          })
+          .join("");
+        updateCurrentTimeLine();
+      }
+
+      function updateCurrentTimeLine() {
+        const now = new Date();
+        if (selectedDateKey !== toDateKey(now)) {
+          elements.currentTimeLine.hidden = true;
+          return;
+        }
+        const minutes = now.getHours() * 60 + now.getMinutes();
+        elements.currentTimeLine.hidden = false;
+        elements.currentTimeLine.style.top = `${(minutes / 1440) * 100}%`;
+        elements.currentTimeLabel.textContent = minutesToTime(minutes);
+      }
+
+      function scrollTimelineToFocus() {
+        window.requestAnimationFrame(() => {
+          const day = ensureDay();
+          const now = new Date();
+          const firstBlock = [...day.blocks].sort((a, b) =>
+            a.start.localeCompare(b.start),
+          )[0];
+          const focusMinutes =
+            selectedDateKey === toDateKey(now)
+              ? now.getHours() * 60 + now.getMinutes()
+              : firstBlock
+                ? timeToMinutes(firstBlock.start)
+                : 8 * 60;
+          const target =
+            (focusMinutes / 1440) * elements.timelineCanvas.offsetHeight -
+            elements.timelineScroll.clientHeight * 0.2;
+          elements.timelineScroll.scrollTop = Math.max(0, target);
+        });
+      }
+
+      function openBlockDialog(id) {
+        const block = ensureDay().blocks.find((item) => item.id === id);
+        if (!block) return;
+        editingBlockId = id;
+        elements.editBlockText.value = block.text;
+        elements.editBlockStart.value = block.start;
+        elements.editBlockEnd.value = block.end;
+        elements.editBlockCategory.value = block.category;
+        elements.editBlockDone.checked = block.done;
+        elements.blockDialog.showModal();
+        elements.editBlockText.focus();
+      }
+
+      function renderTasks() {
+        const day = ensureDay();
+        const tasks = day.tasks.filter((item) => {
+          if (taskFilter === "open") return !item.done;
+          if (taskFilter === "done") return item.done;
+          return true;
+        });
+
+        document.querySelectorAll("[data-task-filter]").forEach((button) => {
+          button.setAttribute(
+            "aria-pressed",
+            String(button.dataset.taskFilter === taskFilter),
+          );
+        });
+
+        if (!tasks.length) {
+          const message =
+            taskFilter === "done"
+              ? "还没有已完成的待办"
+              : taskFilter === "open"
+                ? "当前没有待办"
+                : "这一天还没有待办";
+          elements.taskList.innerHTML = `<div class="empty-state">${message}</div>`;
+          return;
+        }
+
+        elements.taskList.innerHTML = tasks
+          .map(
+            (item) => `
+              <div class="list-row task-row" data-item-id="${escapeHTML(item.id)}">
+                <input
+                  class="item-check"
+                  type="checkbox"
+                  ${item.done ? "checked" : ""}
+                  aria-label="标记待办为完成"
+                />
+                <select class="row-category" aria-label="待办类别">
+                  ${categoryOptions(item.category)}
+                </select>
+                <input
+                  class="row-text"
+                  type="text"
+                  maxlength="240"
+                  value="${escapeHTML(item.text)}"
+                  aria-label="待办内容"
+                />
+                <button
+                  class="delete-button"
+                  type="button"
+                  data-action="delete-task"
+                  aria-label="删除待办"
+                  title="删除"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+            `,
+          )
+          .join("");
+      }
+
+      function renderNotes() {
+        const day = ensureDay();
+        elements.dailyNotes.value = day.notes;
+        elements.notesCount.textContent = `${day.notes.length} 字`;
+      }
+
+      function refreshSummary() {
+        const day = ensureDay();
+        const activePriorities = day.priorities.filter((item) => item.text.trim());
+        const allItems = [...activePriorities, ...day.blocks, ...day.tasks];
+        const completed = allItems.filter((item) => item.done).length;
+        const total = allItems.length;
+        const percentage = total ? Math.round((completed / total) * 100) : 0;
+
+        elements.completionValue.textContent = `${completed} / ${total}`;
+        elements.completionBar.style.width = `${percentage}%`;
+        elements.priorityCount.textContent =
+          `${activePriorities.length} / 3 已安排`;
+        elements.notesCount.textContent = `${day.notes.length} 字`;
+
+        const sortedBlocks = [...day.blocks]
+          .filter((item) => !item.done)
+          .sort((a, b) => a.start.localeCompare(b.start));
+        let nextBlock = sortedBlocks[0];
+
+        if (selectedDateKey === toDateKey(new Date())) {
+          const now = new Date();
+          const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(
+            now.getMinutes(),
+          ).padStart(2, "0")}`;
+          nextBlock = sortedBlocks.find((item) => item.end > currentTime);
+        }
+
+        if (nextBlock) {
+          elements.nextBlockTitle.textContent = nextBlock.text;
+          elements.nextBlockTime.textContent =
+            `${nextBlock.start} - ${nextBlock.end} · ${
+              CATEGORY_LABELS[nextBlock.category]
+            }`;
+        } else {
+          elements.nextBlockTitle.textContent = "暂无安排";
+          elements.nextBlockTime.textContent = "留给自由推进";
+        }
+      }
+
+      function suggestBlockRange() {
+        if (selectedDateKey !== toDateKey(new Date())) {
+          return { start: "09:00", end: "09:30" };
+        }
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+        const nextSlot = Math.min(23 * 60 + 30, Math.ceil((currentMinutes + 1) / 30) * 30);
+        return normalizeBlockRange(
+          minutesToTime(nextSlot),
+          minutesToTime(nextSlot + 30),
+        );
+      }
+
+      function renderSelectedDay() {
+        ensureDay();
+        renderDateContext();
+        renderPriorities();
+        renderWeek();
+        renderBlocks();
+        renderTasks();
+        renderNotes();
+        refreshSummary();
+        const suggestedRange = suggestBlockRange();
+        elements.blockStart.value = suggestedRange.start;
+        elements.blockEnd.value = suggestedRange.end;
+        scrollTimelineToFocus();
+      }
+
+      function setSelectedDate(key) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(key)) return;
+        selectedDateKey = key;
+        renderSelectedDay();
+        if (serverOnline) void loadDayFromServer(key);
+      }
+
+      function findItem(list, eventTarget) {
+        const row = eventTarget.closest("[data-item-id]");
+        if (!row) return null;
+        return list.find((item) => item.id === row.dataset.itemId) || null;
+      }
+
+      function priorityPayload(index) {
+        const item = ensureDay().priorities[index];
+        return { text: item.text, done: item.done };
+      }
+
+      function weekPayload() {
+        const week = ensureWeek();
+        return {
+          goal: week.goal,
+          milestone: week.milestone,
+          progress: week.progress,
+        };
+      }
+
+      function taskPayload(item) {
+        return {
+          id: item.id,
+          day: selectedDateKey,
+          category: item.category,
+          text: item.text,
+          done: item.done,
+        };
+      }
+
+      function blockPayload(item) {
+        return {
+          id: item.id,
+          day: selectedDateKey,
+          start: item.start,
+          end: item.end,
+          category: item.category,
+          text: item.text,
+          done: item.done,
+        };
+      }
+
+      function updateClock() {
+        const now = new Date();
+        const hour = now.getHours();
+        elements.clock.textContent = new Intl.DateTimeFormat("zh-CN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }).format(now);
+
+        if (hour < 5) {
+          elements.greeting.textContent = "夜深了";
+        } else if (hour < 11) {
+          elements.greeting.textContent = "早上好";
+        } else if (hour < 14) {
+          elements.greeting.textContent = "中午好";
+        } else if (hour < 18) {
+          elements.greeting.textContent = "下午好";
+        } else if (hour < 23) {
+          elements.greeting.textContent = "晚上好";
+        } else {
+          elements.greeting.textContent = "今天辛苦了";
+        }
+
+        elements.currentYear.textContent = now.getFullYear();
+        refreshSummary();
+        updateCurrentTimeLine();
+      }
+
+      function applyThemeIcon() {
+        const isDark = document.documentElement.dataset.theme === "dark";
+        elements.themeIcon.textContent = isDark ? "☀" : "☾";
+        elements.themeToggle.setAttribute(
+          "aria-label",
+          isDark ? "切换到浅色模式" : "切换到深色模式",
+        );
+        document
+          .querySelector('meta[name="theme-color"]')
+          .setAttribute("content", isDark ? "#080a0c" : "#17191c");
+      }
+
+      function renderApps() {
+        elements.appGrid.innerHTML = APPS.map(
+          (app) => `
+            <article class="app-card" style="--app-accent: ${app.accent}">
+              <div class="app-top">
+                <span class="app-mark" aria-hidden="true">${app.mark}</span>
+                <span
+                  class="health"
+                  id="health-${app.id}"
+                  data-health="${app.access === "sso" ? "sso" : "checking"}"
+                  aria-label="${
+                    app.access === "sso"
+                      ? `${app.name} 需要统一登录`
+                      : `${app.name} 状态检测中`
+                  }"
+                >
+                  <span class="health-dot" aria-hidden="true"></span>
+                  <span class="health-label">${
+                    app.access === "sso" ? "SSO" : "检测中"
+                  }</span>
+                </span>
+              </div>
+              <p class="app-domain">${app.domain}</p>
+              <h3 class="app-name">${app.name}</h3>
+              <div class="app-actions">
+                <a
+                  class="open-app"
+                  href="${app.url}"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  打开
+                  <span aria-hidden="true">↗</span>
+                </a>
+                <a
+                  class="repo-link"
+                  href="${app.repoUrl}"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="查看 ${app.name} 的代码仓库"
+                  title="代码仓库"
+                >
+                  <span aria-hidden="true">⌘</span>
+                </a>
+              </div>
+            </article>
+          `,
+        ).join("");
+
+        document.querySelector("#systemCount").textContent =
+          `${APPS.length} 个入口 · ${APPS.filter((app) => app.access === "sso").length} 个 SSO`;
+      }
+
+      async function checkApp(app) {
+        if (app.access === "sso") return;
+        const status = document.querySelector(`#health-${app.id}`);
+        const label = status.querySelector(".health-label");
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+        try {
+          const response = await fetch(app.url, {
+            method: "HEAD",
+            cache: "no-store",
+            signal: controller.signal,
+          });
+          status.dataset.health = response.ok ? "online" : "offline";
+          label.textContent = response.ok ? "在线" : "不可用";
+          status.setAttribute(
+            "aria-label",
+            `${app.name} ${response.ok ? "在线" : "暂时不可用"}`,
+          );
+        } catch {
+          status.dataset.health = "offline";
+          label.textContent = "未连接";
+          status.setAttribute("aria-label", `${app.name} 状态未确认`);
+        } finally {
+          window.clearTimeout(timeout);
+        }
+      }
+
+      function escapeCalendarText(value) {
+        return String(value)
+          .replaceAll("\\", "\\\\")
+          .replaceAll("\n", "\\n")
+          .replaceAll(",", "\\,")
+          .replaceAll(";", "\\;");
+      }
+
+      function exportDayCalendar() {
+        const blocks = [...ensureDay().blocks].sort((a, b) =>
+          a.start.localeCompare(b.start),
+        );
+        if (!blocks.length) {
+          window.alert("这一天还没有可以导出的时间块。");
+          return;
+        }
+
+        const dateStamp = selectedDateKey.replaceAll("-", "");
+        const generatedAt = new Date()
+          .toISOString()
+          .replaceAll("-", "")
+          .replaceAll(":", "")
+          .replace(/\.\d{3}Z$/, "Z");
+        const events = blocks.flatMap((item) => [
+          "BEGIN:VEVENT",
+          `UID:${escapeCalendarText(item.id)}@snappython.github.io`,
+          `DTSTAMP:${generatedAt}`,
+          `DTSTART:${dateStamp}T${item.start.replace(":", "")}00`,
+          `DTEND:${dateStamp}T${item.end.replace(":", "")}00`,
+          `SUMMARY:${escapeCalendarText(item.text)}`,
+          `CATEGORIES:${escapeCalendarText(CATEGORY_LABELS[item.category])}`,
+          `X-SNAP-DONE:${item.done ? "TRUE" : "FALSE"}`,
+          "END:VEVENT",
+        ]);
+        const calendar = [
+          "BEGIN:VCALENDAR",
+          "VERSION:2.0",
+          "PRODID:-//SnapPython//Graduate Life Cockpit//ZH-CN",
+          "CALSCALE:GREGORIAN",
+          "METHOD:PUBLISH",
+          `X-WR-CALNAME:${selectedDateKey} 生活驾驶舱`,
+          ...events,
+          "END:VCALENDAR",
+          "",
+        ].join("\r\n");
+        const blob = new Blob([calendar], {
+          type: "text/calendar;charset=utf-8",
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `schedule-${selectedDateKey}.ics`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function exportBackup() {
+        const payload = {
+          ...state,
+          exportedAt: new Date().toISOString(),
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `life-cockpit-backup-${toDateKey(new Date())}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      async function importBackup(file) {
+        try {
+          const parsed = JSON.parse(await file.text());
+          if (!parsed || typeof parsed.days !== "object") {
+            throw new Error("Invalid backup");
+          }
+          const shouldRestore = window.confirm(
+            "导入备份会替换 VPS 和所有设备上的驾驶舱数据，是否继续？",
+          );
+          if (!shouldRestore) return;
+          mutationTimers.forEach((timer) => window.clearTimeout(timer));
+          mutationTimers.clear();
+          syncQueue = [];
+          persistSyncQueue();
+          state = normalizeState(parsed);
+          saveState();
+          renderSelectedDay();
+          try {
+            setSyncStatus("正在恢复 VPS 数据");
+            const result = await apiRequest("/api/replace-state", {
+              method: "POST",
+              body: { state },
+            });
+            serverOnline = true;
+            serverRevision = Math.max(
+              serverRevision,
+              Number(result.revision) || 0,
+            );
+            await loadDayFromServer(selectedDateKey);
+            window.alert("备份已恢复，并已同步到所有设备。");
+          } catch {
+            serverOnline = false;
+            enqueueMutation(
+              "replace-state",
+              "POST",
+              "/api/replace-state",
+              { state },
+            );
+            window.alert("备份已在本机恢复，连接 VPS 后会自动同步。");
+          }
+        } catch {
+          window.alert("无法读取这个备份文件。");
+        } finally {
+          elements.importFile.value = "";
+        }
+      }
+
+      elements.themeToggle.addEventListener("click", () => {
+        const nextTheme =
+          document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = nextTheme;
+        try {
+          localStorage.setItem("life-cockpit-theme", nextTheme);
+        } catch {
+          // The selected theme still applies for the current page.
+        }
+        applyThemeIcon();
+      });
+
+      elements.previousDay.addEventListener("click", () => {
+        setSelectedDate(shiftDate(selectedDateKey, -1));
+      });
+
+      elements.nextDay.addEventListener("click", () => {
+        setSelectedDate(shiftDate(selectedDateKey, 1));
+      });
+
+      elements.todayButton.addEventListener("click", () => {
+        setSelectedDate(toDateKey(new Date()));
+      });
+
+      elements.plannerDate.addEventListener("change", (event) => {
+        setSelectedDate(event.target.value);
+      });
+
+      elements.priorityList.addEventListener("input", (event) => {
+        if (!event.target.classList.contains("priority-input")) return;
+        const index = Number(event.target.dataset.priorityIndex);
+        ensureDay().priorities[index].text = event.target.value;
+        saveState();
+        refreshSummary();
+        scheduleMutation(
+          `priority:${selectedDateKey}:${index}`,
+          "PUT",
+          `/api/days/${selectedDateKey}/priorities/${index}`,
+          priorityPayload(index),
+        );
+      });
+
+      elements.priorityList.addEventListener("change", (event) => {
+        if (!event.target.classList.contains("priority-check")) return;
+        const index = Number(event.target.dataset.priorityIndex);
+        ensureDay().priorities[index].done = event.target.checked;
+        saveState();
+        refreshSummary();
+        enqueueMutation(
+          `priority:${selectedDateKey}:${index}`,
+          "PUT",
+          `/api/days/${selectedDateKey}/priorities/${index}`,
+          priorityPayload(index),
+        );
+      });
+
+      elements.weekGoal.addEventListener("input", (event) => {
+        ensureWeek().goal = event.target.value;
+        saveState();
+        const key = getWeekKey(fromDateKey(selectedDateKey));
+        scheduleMutation(
+          `week:${key}`,
+          "PUT",
+          `/api/weeks/${key}`,
+          weekPayload(),
+        );
+      });
+
+      elements.weekMilestone.addEventListener("input", (event) => {
+        ensureWeek().milestone = event.target.value;
+        saveState();
+        const key = getWeekKey(fromDateKey(selectedDateKey));
+        scheduleMutation(
+          `week:${key}`,
+          "PUT",
+          `/api/weeks/${key}`,
+          weekPayload(),
+        );
+      });
+
+      elements.weekProgress.addEventListener("input", (event) => {
+        const value = Number(event.target.value);
+        ensureWeek().progress = value;
+        elements.weekProgressValue.value = `${value}%`;
+        elements.weekProgressValue.textContent = `${value}%`;
+        saveState();
+        const key = getWeekKey(fromDateKey(selectedDateKey));
+        scheduleMutation(
+          `week:${key}`,
+          "PUT",
+          `/api/weeks/${key}`,
+          weekPayload(),
+          250,
+        );
+      });
+
+      elements.blockForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const text = elements.blockText.value.trim();
+        const range = readBlockRange(elements.blockStart, elements.blockEnd);
+        if (!text || !range) return;
+        const block = {
+          id: createId(),
+          start: range.start,
+          end: range.end,
+          category: validCategory(elements.blockCategory.value),
+          text,
+          done: false,
+          source: "cockpit",
+          syncState: "pending_upsert",
+        };
+        ensureDay().blocks.push(block);
+        elements.blockText.value = "";
+        saveState();
+        renderBlocks();
+        refreshSummary();
+        enqueueMutation(
+          `block:${block.id}`,
+          "POST",
+          `/api/days/${selectedDateKey}/blocks`,
+          blockPayload(block),
+        );
+        elements.blockText.focus();
+      });
+
+      elements.blockStart.addEventListener("change", () => {
+        keepEndAfterStart(elements.blockStart, elements.blockEnd);
+      });
+
+      elements.blockEnd.addEventListener("input", () => {
+        elements.blockEnd.setCustomValidity("");
+      });
+
+      elements.timelineEvents.addEventListener("click", (event) => {
+        const block = event.target.closest(".time-block");
+        if (block) openBlockDialog(block.dataset.itemId);
+      });
+
+      elements.timelineCanvas.addEventListener("click", (event) => {
+        if (event.target.closest(".time-block")) return;
+        const bounds = elements.timelineCanvas.getBoundingClientRect();
+        const clickedMinutes = Math.round(
+          ((event.clientY - bounds.top) / bounds.height) * 1440,
+        );
+        const startMinutes = Math.min(
+          1410,
+          Math.max(0, Math.round(clickedMinutes / 30) * 30),
+        );
+        const range = normalizeBlockRange(
+          minutesToTime(startMinutes),
+          minutesToTime(startMinutes + 30),
+        );
+        elements.blockStart.value = range.start;
+        elements.blockEnd.value = range.end;
+        elements.blockText.focus();
+      });
+
+      elements.editBlockStart.addEventListener("change", () => {
+        keepEndAfterStart(elements.editBlockStart, elements.editBlockEnd);
+      });
+
+      elements.editBlockEnd.addEventListener("input", () => {
+        elements.editBlockEnd.setCustomValidity("");
+      });
+
+      elements.blockEditForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const block = ensureDay().blocks.find(
+          (item) => item.id === editingBlockId,
+        );
+        const range = readBlockRange(
+          elements.editBlockStart,
+          elements.editBlockEnd,
+        );
+        const text = elements.editBlockText.value.trim();
+        if (!block || !range || !text) return;
+        block.text = text;
+        block.start = range.start;
+        block.end = range.end;
+        block.category = validCategory(elements.editBlockCategory.value);
+        block.done = elements.editBlockDone.checked;
+        saveState();
+        renderBlocks();
+        refreshSummary();
+        enqueueMutation(
+          `block:${block.id}`,
+          "PUT",
+          `/api/blocks/${encodeURIComponent(block.id)}`,
+          blockPayload(block),
+        );
+        elements.blockDialog.close();
+        editingBlockId = null;
+      });
+
+      elements.deleteBlockButton.addEventListener("click", () => {
+        if (!editingBlockId) return;
+        const deletedId = editingBlockId;
+        ensureDay().blocks = ensureDay().blocks.filter(
+          (item) => item.id !== deletedId,
+        );
+        saveState();
+        renderBlocks();
+        refreshSummary();
+        enqueueMutation(
+          `block:${deletedId}`,
+          "DELETE",
+          `/api/blocks/${encodeURIComponent(deletedId)}`,
+          null,
+        );
+        elements.blockDialog.close();
+        editingBlockId = null;
+      });
+
+      elements.closeBlockDialog.addEventListener("click", () => {
+        elements.blockDialog.close();
+        editingBlockId = null;
+      });
+
+      elements.cancelBlockEdit.addEventListener("click", () => {
+        elements.blockDialog.close();
+        editingBlockId = null;
+      });
+
+      elements.blockDialog.addEventListener("click", (event) => {
+        if (event.target === elements.blockDialog) {
+          elements.blockDialog.close();
+          editingBlockId = null;
+        }
+      });
+
+      elements.taskForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const text = elements.taskText.value.trim();
+        if (!text) return;
+        const task = {
+          id: createId(),
+          category: validCategory(elements.taskCategory.value),
+          text,
+          done: false,
+        };
+        ensureDay().tasks.push(task);
+        elements.taskText.value = "";
+        taskFilter = "open";
+        saveState();
+        renderTasks();
+        refreshSummary();
+        enqueueMutation(
+          `task:${task.id}`,
+          "POST",
+          `/api/days/${selectedDateKey}/tasks`,
+          taskPayload(task),
+        );
+        elements.taskText.focus();
+      });
+
+      elements.taskList.addEventListener("input", (event) => {
+        if (!event.target.classList.contains("row-text")) return;
+        const item = findItem(ensureDay().tasks, event.target);
+        if (!item) return;
+        item.text = event.target.value;
+        saveState();
+        refreshSummary();
+        scheduleMutation(
+          `task:${item.id}`,
+          "PUT",
+          `/api/tasks/${encodeURIComponent(item.id)}`,
+          taskPayload(item),
+        );
+      });
+
+      elements.taskList.addEventListener("change", (event) => {
+        const item = findItem(ensureDay().tasks, event.target);
+        if (!item) return;
+        if (event.target.classList.contains("item-check")) {
+          item.done = event.target.checked;
+        } else if (event.target.classList.contains("row-category")) {
+          item.category = validCategory(event.target.value);
+        } else {
+          return;
+        }
+        saveState();
+        renderTasks();
+        refreshSummary();
+        enqueueMutation(
+          `task:${item.id}`,
+          "PUT",
+          `/api/tasks/${encodeURIComponent(item.id)}`,
+          taskPayload(item),
+        );
+      });
+
+      elements.taskList.addEventListener("click", (event) => {
+        const button = event.target.closest('[data-action="delete-task"]');
+        if (!button) return;
+        const row = button.closest("[data-item-id]");
+        const deletedId = row.dataset.itemId;
+        ensureDay().tasks = ensureDay().tasks.filter(
+          (item) => item.id !== deletedId,
+        );
+        saveState();
+        renderTasks();
+        refreshSummary();
+        enqueueMutation(
+          `task:${deletedId}`,
+          "DELETE",
+          `/api/tasks/${encodeURIComponent(deletedId)}`,
+          null,
+        );
+      });
+
+      document.querySelectorAll("[data-task-filter]").forEach((button) => {
+        button.addEventListener("click", () => {
+          taskFilter = button.dataset.taskFilter;
+          renderTasks();
+        });
+      });
+
+      elements.dailyNotes.addEventListener("input", (event) => {
+        ensureDay().notes = event.target.value;
+        saveState();
+        elements.notesCount.textContent = `${event.target.value.length} 字`;
+        scheduleMutation(
+          `notes:${selectedDateKey}`,
+          "PUT",
+          `/api/days/${selectedDateKey}/notes`,
+          { text: event.target.value },
+          700,
+        );
+      });
+
+      elements.exportButton.addEventListener("click", exportBackup);
+      elements.exportCalendarButton.addEventListener("click", exportDayCalendar);
+      elements.googleCalendarButton.addEventListener("click", async () => {
+        if (!googleState.configured) {
+          window.alert(
+            `Google Calendar OAuth 尚未配置。\n回调地址：${
+              googleState.redirectUri || `${window.location.origin}/api/google/callback`
+            }`,
+          );
+          return;
+        }
+        try {
+          if (googleState.connected) {
+            setSyncStatus("正在同步 Google 日历");
+            await apiRequest(
+              `/api/google/sync?day=${encodeURIComponent(selectedDateKey)}`,
+              { method: "POST" },
+            );
+            await loadDayFromServer(selectedDateKey);
+          } else {
+            const result = await apiRequest("/api/google/connect", {
+              method: "POST",
+            });
+            window.location.assign(result.url);
+          }
+        } catch (error) {
+          setSyncStatus(`Google 同步失败：${error.message}`);
+        }
+      });
+      elements.importButton.addEventListener("click", () => {
+        elements.importFile.click();
+      });
+      elements.importFile.addEventListener("change", (event) => {
+        const [file] = event.target.files;
+        if (file) importBackup(file);
+      });
+
+      window.addEventListener("storage", (event) => {
+        if (serverOnline) return;
+        if (event.key !== STORAGE_KEY || !event.newValue) return;
+        try {
+          state = normalizeState(JSON.parse(event.newValue));
+          renderSelectedDay();
+          elements.saveState.textContent = "已从其他页面同步";
+        } catch {
+          // Ignore incomplete writes from another tab.
+        }
+      });
+
+      renderApps();
+      renderTimelineGrid();
+      renderSelectedDay();
+      updateClock();
+      applyThemeIcon();
+      updateGoogleButton();
+      APPS.forEach(checkApp);
+      void initializeServerSync();
+      window.setInterval(updateClock, 30000);
+      window.setInterval(() => {
+        if (serverOnline && !syncQueue.length && !syncInProgress) {
+          const activeElement = document.activeElement;
+          const isEditing =
+            elements.blockDialog.open ||
+            (activeElement &&
+              activeElement.matches("input, textarea, select"));
+          if (!isEditing) void loadDayFromServer(selectedDateKey);
+        } else {
+          void flushSyncQueue();
+        }
+      }, 60000);
+      window.addEventListener("online", () => {
+        void initializeServerSync();
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && serverOnline && !syncQueue.length) {
+          void loadDayFromServer(selectedDateKey);
+        }
+      });
+    </script>
+  </body>
+</html>

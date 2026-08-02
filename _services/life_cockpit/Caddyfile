@@ -1,0 +1,23 @@
+https://life.72-11-130-223.sslip.io:8444 {
+	encode gzip
+
+	forward_auth 127.0.0.1:9091 {
+		uri /api/authz/forward-auth
+		copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+	}
+
+	handle /api/* {
+		reverse_proxy 127.0.0.1:9550 {
+			header_up X-LC-Proxy-Secret {env.LC_PROXY_SECRET}
+		}
+	}
+
+	handle {
+		root * /var/www/life-cockpit
+		header Cache-Control "no-cache"
+		try_files {path} /index.html
+		file_server {
+			precompressed br gzip
+		}
+	}
+}

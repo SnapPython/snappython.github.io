@@ -1,0 +1,24 @@
+[Unit]
+Description=Life Cockpit sync API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=life-cockpit
+Group=life-cockpit
+UMask=0077
+WorkingDirectory=/opt/life-cockpit
+EnvironmentFile=/opt/life-cockpit/.env
+Environment=PATH=/opt/life-cockpit/.venv/bin
+ExecStart=/opt/life-cockpit/.venv/bin/uvicorn app:app --host 127.0.0.1 --port 9550
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/life-cockpit
+
+[Install]
+WantedBy=multi-user.target
