@@ -492,3 +492,25 @@ Our most active contributors are welcome to join the maintainers team. If you ar
 The theme is available as open source under the terms of the [MIT License](https://github.com/alshedivat/al-folio/blob/main/LICENSE).
 
 Originally, **al-folio** was based on the [\*folio theme](https://github.com/bogoli/-folio) (published by [Lia Bogoev](https://liabogoev.com) and under the MIT license). Since then, it got a full re-write of the styles and many additional cool features.
+
+## Life Cockpit public information
+
+`life-cockpit/` contains standalone Simplified Chinese and English product and
+privacy pages for the maintainer's personal-use Life Cockpit instance. Jekyll
+copies these static files without the blog layout. They load no analytics,
+authentication code, external fonts or application data. The main site is unchanged.
+
+- Product information: `/life-cockpit/` and `/life-cockpit/index.en.html`
+- Privacy: `/life-cockpit/privacy.html` and `/life-cockpit/privacy.en.html`
+
+Keep the two languages consistent and update both policy dates when actual data
+handling changes. Review Google permissions, AI/provider processing, Feishu
+transfers, retention, disconnect and deletion behavior before changing claims.
+The contact address must be real and approved for public display; never publish
+placeholder contact information or private runtime records. These pages do not
+establish OAuth verification, successful consent or persistent token validity.
+
+Use the existing main-to-gh-pages deployment workflow. Do not edit generated
+`gh-pages` files directly. Format changed files with the repository's Prettier
+configuration. Check local links, mobile layout, and live HTTPS pages after the
+build; never replace a deployment failure with a manual overwrite of the site.
