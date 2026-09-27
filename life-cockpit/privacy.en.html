@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Life Cockpit privacy policy covering Google data, AI processing, retention, revocation and deletion." />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>Life Cockpit · Privacy policy</title>
+    <link rel="canonical" href="https://snappython.github.io/life-cockpit/privacy.en.html" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header>
+      <a class="brand" href="index.en.html">Life Cockpit</a>
+      <nav aria-label="Main navigation">
+        <a href="index.en.html">Overview</a><a href="privacy.en.html">Privacy</a><a href="privacy.html" lang="zh-CN" hreflang="zh-CN">简体中文</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero">
+        <span class="eyebrow">LIFE COCKPIT / PRIVACY</span>
+        <h1>Privacy policy</h1>
+        <p class="lead">How Life Cockpit accesses, uses, stores and transfers data, and how its owner can stop access or request deletion.</p>
+        <p class="meta">Effective and updated: September 27, 2026 · Applies to the personal-use instance maintained by SnapPython</p>
+      </section>
+      <article class="prose">
+        <section>
+          <h2>1. Scope and operator</h2>
+          <p>
+            Life Cockpit is a calendar, task and information assistant maintained by SnapPython for personal use. It has no public registration. This
+            public website provides information and policies only; it does not connect to your Google account.
+          </p>
+          <p>Contact: <a href="mailto:eringhong30@gmail.com">eringhong30@gmail.com</a></p>
+        </section>
+        <section>
+          <h2>2. Data accessed and purposes</h2>
+          <ul>
+            <li>
+              <strong>Google Calendar:</strong> authorized access to calendar identifiers, event titles, descriptions, start/end times and other event
+              information for agenda views, planning and task-related event synchronization. Related events may be created, updated or deleted through
+              the owner's actions and enabled synchronization rules.
+            </li>
+            <li>
+              <strong>Google Tasks:</strong> the tasks scope is requested. The application normally synchronizes the designated Life Cockpit list,
+              including titles, notes, due dates and completion status. Tasks may be created, updated, completed or deleted through owner actions and
+              confirmed plans.
+            </li>
+            <li>
+              <strong>Gmail:</strong> a separate gmail.readonly grant imports recent message identifiers, senders, subjects, received times and bodies
+              for organization, summaries and task suggestions. The first sync covers the previous seven days; later syncs use an incremental
+              checkpoint. This is not limited to the Inbox label and excludes Spam, Trash, Sent and Drafts. Attachments are not downloaded. This
+              integration does not send, delete, mark read or archive email. Formal tasks follow the owner confirmation workflow.
+            </li>
+            <li>
+              <strong>Account and connection information:</strong> connected account identifiers, granted permissions, OAuth tokens and
+              synchronization status to access authorized services, refresh access and display connection health.
+            </li>
+            <li>
+              <strong>Owner input and derived content:</strong> submitted tasks, notes, files or messages, along with summaries, task suggestions,
+              confirmation records, briefings and delivery states that support the personal workspace.
+            </li>
+          </ul>
+          <p>
+            Calendar requests calendar.events. The Google consent screen shows the actual permissions requested. Calendar/Tasks and Gmail use separate
+            connection flows.
+          </p>
+        </section>
+        <section>
+          <h2>3. AI, Feishu and service providers</h2>
+          <p>
+            AI inputs may also include project progress, reminders, training summaries and inbox context. The server configuration selects the model
+            provider; implemented routes support xAI and OpenAI. This page does not indicate that every provider is enabled.
+          </p>
+          <p>
+            When the owner enables relevant features, selected email text, calendar or task content, submitted messages and derived summaries may pass
+            through the server's AI gateway to configured model providers for summarization, task extraction, clarification questions and briefing
+            generation. This is model inference; it does not run entirely in the browser or on the owner's local device.
+          </p>
+          <p>
+            When Feishu or email notifications are enabled, task summaries, questions, reminders and briefings are sent to the owner's configured
+            accounts or channels. Google receives requests needed to perform calendar and task operations. Hosting, backup and configured processing
+            services may also store data needed to operate these features. Enabled Feishu synchronization may also transfer task titles, dates,
+            execution times and status, and ordinary event titles, descriptions, locations, times and source links. Messages captured through Feishu
+            may be stored in the application inbox.
+          </p>
+          <p>
+            Provider processing locations, logs and retention depend on the services and settings selected. This policy does not promise zero
+            retention by third parties. Before enabling a provider, the owner should review its data-use terms and select only services consistent
+            with the limited-use commitments below.
+          </p>
+        </section>
+        <section>
+          <h2>4. Limited use of Google data</h2>
+          <p>
+            Google user data and derived content are used only for the personal calendar, task, message organization and reminder features disclosed
+            here. Life Cockpit does not sell this data or use it for advertising profiles, credit scoring or training general-purpose AI models.
+          </p>
+          <p>
+            Transfers to processors must be limited to providing features the owner has enabled and consented to, or necessary security and legal
+            purposes. Private content is not made available for human review except by the owner or for necessary processing with their explicit
+            agreement.
+          </p>
+          <p>
+            Life Cockpit's use of information received from Google APIs, and its transfer to other applications, must follow the
+            <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including its
+            Limited Use requirements.
+          </p>
+        </section>
+        <section>
+          <h2>5. Storage and security</h2>
+          <p>
+            The implemented backup policy generates daily full-history business-record JSON snapshots. Local daily snapshots are retained for about 30
+            days; monthly snapshots and the configured private Git archive have no automatic expiry rule. Backups exclude OAuth credentials but may
+            include imported email bodies and derived content. Backup file contents are not application-encrypted. Whether backups run depends on
+            instance configuration.
+          </p>
+          <p>
+            The application server stores synchronized snapshots, business records, generated content, queues and synchronization metadata. OAuth
+            credentials are encrypted on the server; this does not mean every business record or backup is individually encrypted. Application access
+            requires authentication, and Google API requests use HTTPS.
+          </p>
+          <p>
+            Business records remain for the operation of enabled features until an applicable deletion action is taken or the maintainer processes
+            deletion. The current implementation has no single automatic deletion period covering all data types. Backups and third-party copies
+            require separate handling; immediate deletion is not promised.
+          </p>
+        </section>
+        <section>
+          <h2>6. Revocation and deletion</h2>
+          <p>
+            You can disconnect Calendar/Tasks or Gmail in the application, or remove access through
+            <a href="https://myaccount.google.com/connections">Google Account third-party connections</a>. Check each connection if they were
+            authorized separately.
+          </p>
+          <p>
+            Disconnection and deletion are different operations. Stopping further access does not automatically remove all synchronized snapshots,
+            generated briefings, delivery records or backups. It does not automatically delete original content in Google or Feishu.
+          </p>
+          <p>
+            To request deletion of local data, contact the maintainer at the email above and identify the connection or data categories concerned.
+            Application records, derived content and manageable backups must be handled separately; provider copies are also subject to the relevant
+            service's procedures. Do not submit private email, tokens or account records in public GitHub issues.
+          </p>
+        </section>
+        <section>
+          <h2>7. This public website and updates</h2>
+          <p>
+            This information site is hosted on GitHub Pages. It does not load analytics, advertising scripts or Google sign-in components and does not
+            read Life Cockpit business data. GitHub may process requests, IP addresses and technical logs under its
+            <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a>.
+          </p>
+          <p>
+            The date and content of this policy will be updated when features or data uses change. New data access or uses require notice and consent
+            where applicable.
+          </p>
+        </section>
+      </article>
+    </main>
+    <footer><span>Personal use · Maintained by SnapPython</span><a href="privacy.en.html">Privacy</a></footer>
+  </body>
+</html>

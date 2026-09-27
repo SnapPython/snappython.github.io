@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Life Cockpit 个人自用实例的隐私政策：Google 数据、AI 处理、保存、撤销与删除。" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>Life Cockpit · 隐私政策</title>
+    <link rel="canonical" href="https://snappython.github.io/life-cockpit/privacy.html" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">跳转到正文</a>
+    <header>
+      <a class="brand" href="./">Life Cockpit</a>
+      <nav aria-label="主导航">
+        <a href="./">应用介绍</a><a href="privacy.html">隐私政策</a><a href="privacy.en.html" lang="en" hreflang="en">English</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero">
+        <span class="eyebrow">LIFE COCKPIT / PRIVACY</span>
+        <h1>隐私政策</h1>
+        <p class="lead">这份说明介绍 Life Cockpit 如何访问、使用、保存和传递数据，以及如何停止访问和申请删除。</p>
+        <p class="meta">生效及更新日期：2026 年 9 月 27 日 · 适用于由 SnapPython 维护的个人自用实例</p>
+      </section>
+      <article class="prose">
+        <section>
+          <h2>1. 适用范围与维护者</h2>
+          <p>
+            Life Cockpit 是 SnapPython 为本人使用而维护的日程、任务与信息整理工具，不开放公众注册。本公开网站只提供介绍和政策，不连接你的 Google
+            账号。
+          </p>
+          <p>联系邮箱：<a href="mailto:eringhong30@gmail.com">eringhong30@gmail.com</a></p>
+        </section>
+        <section>
+          <h2>2. 访问哪些数据，为什么需要</h2>
+          <ul>
+            <li>
+              <strong>Google Calendar：</strong
+              >经授权读取日历标识、事件标题、描述、开始与结束时间等日程信息，用于日程展示、计划安排及任务相关事件同步；根据使用者的操作及已启用的同步规则创建、更新或删除相关事件。
+            </li>
+            <li>
+              <strong>Google Tasks：</strong>请求 tasks 权限，通常只同步指定的 Life Cockpit
+              清单，处理标题、备注、截止日期和完成状态；根据使用者操作与确认后的计划创建、更新、完成或删除任务。
+            </li>
+            <li>
+              <strong>Gmail：</strong>单独请求 gmail.readonly
+              权限，导入近期邮件的标识、发件人、主题、收件时间和正文，用于整理、摘要及待办建议。首次同步前七天，后续按同步水位增量读取；不局限于收件箱标签，并排除垃圾邮件、回收站、已发送和草稿。附件不下载，该集成不会发送、删除、标记已读或归档邮件。正式任务遵循使用者的确认流程。
+            </li>
+            <li>
+              <strong>账号与连接信息：</strong>保存连接账号的标识、所授予权限、OAuth
+              令牌和同步状态，用于访问已授权服务、刷新访问权限和显示连接健康情况。
+            </li>
+            <li>
+              <strong>使用者输入与派生内容：</strong
+              >保存输入的任务、备注、文件或消息，以及相应的摘要、任务建议、确认记录、简报和投递状态，以实现个人工作区功能。
+            </li>
+          </ul>
+          <p>Calendar 请求 calendar.events 权限；实际权限以 Google 授权页面显示的内容为准。Google Calendar/Tasks 与 Gmail 使用独立的连接流程。</p>
+        </section>
+        <section>
+          <h2>3. AI、飞书与其他服务</h2>
+          <p>
+            用于 AI 的相关信息还可能包括项目进展、提醒、训练摘要和收件箱上下文。模型提供商由服务器配置决定，已实现的路由支持 xAI 和
+            OpenAI；本页不表示所有提供商都已启用。
+          </p>
+          <p>
+            在使用者启用相应功能时，部分邮件文本、日程或任务内容、输入的消息及派生摘要可能经服务器上的 AI
+            网关发送给所配置的模型提供商，进行摘要、待办识别、确认问题和简报生成。这是模型推理，并非完全在浏览器或本地设备内完成。
+          </p>
+          <p>
+            启用飞书或邮件通知时，任务摘要、问题、提醒和简报会发送到使用者配置的目标账号或渠道。Google
+            接收完成日历和任务操作所必需的请求。服务器托管、备份及已配置的处理服务也可能保存运行所需的数据。启用飞书同步时，还可传递任务标题、日期、执行时段和状态，以及普通日程的标题、描述、地点、时间和来源链接。通过飞书集成捕获的消息可保存在应用收件箱中。
+          </p>
+          <p>
+            第三方的处理地区、日志及保留期限取决于实际选择的服务和设置；本政策不承诺第三方零留存。使用者应在启用前检查提供商的数据使用条款，并仅选择符合下述有限使用要求的服务。
+          </p>
+        </section>
+        <section>
+          <h2>4. Google 数据的有限使用</h2>
+          <p>
+            Google 用户数据及其派生内容仅用于本政策披露的个人日程、任务、消息整理和提醒功能。Life Cockpit
+            不出售这些数据，不用于广告画像、信用评估或训练通用 AI 模型。
+          </p>
+          <p>
+            向处理服务传递数据应仅为提供使用者已启用并同意的功能，或为必要的安全及法律目的。除使用者本人或经其明确同意的必要处理外，不安排他人阅读私人内容。
+          </p>
+          <p>
+            Life Cockpit 对从 Google API 获得的信息的使用及向其他应用的传递须遵守
+            <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>，包括其中的 Limited
+            Use 要求。
+          </p>
+        </section>
+        <section>
+          <h2>5. 保存与安全</h2>
+          <p>
+            已实现的备份规则会每日生成完整历史业务记录的 JSON：本机每日备份保留约 30 天，月度快照及配置的私有 Git 归档没有自动到期清理规则。备份排除
+            OAuth 凭据，但可包含已导入的邮件正文及其派生内容；备份文件本身没有应用层内容加密。备份是否运行取决于实例配置。
+          </p>
+          <p>
+            应用服务器保存已同步的快照、业务记录、生成内容、队列及同步元数据。OAuth
+            凭据在服务器端加密保存；这不代表所有业务数据或所有备份都逐字段加密。应用访问受身份验证限制，Google API 请求使用 HTTPS。
+          </p>
+          <p>
+            业务记录会在提供功能所需期间保留，直到使用者执行适用的删除操作或由维护者处理删除。现有实现没有覆盖全部数据类型的统一自动删除期限。备份和第三方副本的清除需分别处理，不承诺即时删除。
+          </p>
+        </section>
+        <section>
+          <h2>6. 撤销授权与删除</h2>
+          <p>
+            你可以在应用中断开 Google Calendar/Tasks 或 Gmail，也可以前往
+            <a href="https://myaccount.google.com/connections">Google 账号的第三方连接管理</a>移除访问权限。若两个连接分别授权，请分别检查。
+          </p>
+          <p>
+            断开连接与删除数据不是同一操作：停止后续访问不会自动删除所有已同步快照、已生成简报、投递记录或备份，也不会自动删除 Google
+            或飞书中的原始内容。
+          </p>
+          <p>
+            需要删除本地数据时，请通过上述联系邮箱联系维护者，说明希望删除的连接或数据类别。维护者会分别处理应用记录、派生内容和可管理的备份；第三方副本还需按对应服务的规则处理。请勿在公开
+            GitHub 问题中提交私人邮件、令牌或账号记录。
+          </p>
+        </section>
+        <section>
+          <h2>7. 本公开网站与政策更新</h2>
+          <p>
+            本说明网站托管于 GitHub Pages，不加载统计、广告脚本或 Google 登录组件，不读取 Life Cockpit 的业务数据。GitHub 可能依照其
+            <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">隐私声明</a>处理访问请求、IP
+            地址及技术日志。
+          </p>
+          <p>功能或数据用途变化时会更新本页日期和内容。新增数据访问或用途需要在适用情况下重新告知使用者并取得同意。</p>
+        </section>
+      </article>
+    </main>
+    <footer><span>个人自用 · 由 SnapPython 维护</span><a href="privacy.html">隐私政策</a></footer>
+  </body>
+</html>
